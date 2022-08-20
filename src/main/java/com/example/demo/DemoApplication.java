@@ -1,14 +1,18 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
 import com.example.demo.entities.EmployeeDetail;
+import com.example.demo.entities.Permission;
 import com.example.demo.repository.EmployeeRepository;
 
 @SpringBootApplication
@@ -27,20 +31,31 @@ public class DemoApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("CommandLineRunner");
-		System.out.println("Customer Name: " +customer.getPersonName());
 		
-		Employee employee1 = new Employee();
-		employee1.setName("Nguyen Van A");
-		EmployeeDetail employee1Dtl = new EmployeeDetail();
-		employee1Dtl.setAge(20);
+//		Department dept = new Department();
+//		dept.setName("IT");
+//		
+//		Permission adminPermission = new Permission();
+//		adminPermission.setRole("ADMIN");
+//		Permission managerPermission = new Permission();
+//		managerPermission.setRole("MANAGER");
+//		
+//		List<Permission> permissions = new ArrayList<Permission>();
+//		permissions.add(adminPermission);
+//		permissions.add(managerPermission);
+//		
+//		Employee emp1 = new Employee();
+//		emp1.setName("Hung");
+//		emp1.setDepartment(dept);
+//		emp1.setPermissions(permissions);
+//		
+//		employeeRepository.save(emp1);
 		
-		employee1.setEmployeeDetail(employee1Dtl);
-		Employee savedEmployee = employeeRepository.save(employee1);
-		
-		List<Employee> employeeList = employeeRepository.findAll();
-		for(Employee employee : employeeList) {
-			System.out.println("Employee Name: "+ employee.getName());
+//		Optional<Employee> employee5Optional = employeeRepository.findById(5);
+//		Employee employee5 = employee5Optional.get();
+//		employee5.setName("An");
+//		employeeRepository.save(employee5);
+//		employeeRepository.delete(employee5);
 		}
 	}
 
-}
