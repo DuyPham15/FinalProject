@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,10 +53,11 @@ public class DemoApplication implements CommandLineRunner{
 //		
 //		employeeRepository.save(emp1);
 		
-//		Optional<Employee> employee5Optional = employeeRepository.findById(5);
-//		Employee employee5 = employee5Optional.get();
-//		employee5.setName("An");
-//		employeeRepository.save(employee5);
+		Optional<Employee> employee2Optional = employeeRepository.findById(1);
+		Employee employee2 = employee2Optional.get();
+//		Date mydob = new SimpleDateFormat("dd/MM/yyyy").parse("15/01/1998");
+		employee2.setDateOfBirth(new Date());
+		employeeRepository.save(employee2);
 //		employeeRepository.delete(employee5);
 		}
 	}

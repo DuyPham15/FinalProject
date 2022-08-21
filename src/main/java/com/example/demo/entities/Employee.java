@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,17 @@ public class Employee {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name ="dob")
+	private Date dateOfBirth;
+	
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@PrimaryKeyJoinColumn
 	private EmployeeDetail employeeDetail;
