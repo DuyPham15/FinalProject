@@ -53,11 +53,11 @@ public class DemoApplication implements CommandLineRunner{
 //		
 //		employeeRepository.save(emp1);
 		
-		Optional<Employee> employee2Optional = employeeRepository.findById(1);
-		Employee employee2 = employee2Optional.get();
+//		Optional<Employee> employee2Optional = employeeRepository.findById(1);
+//		Employee employee2 = employee2Optional.get();
 //		Date mydob = new SimpleDateFormat("dd/MM/yyyy").parse("15/01/1998");
-		employee2.setDateOfBirth(new Date());
-		employeeRepository.save(employee2);
+//		employee2.setDateOfBirth(new Date());
+//		employeeRepository.save(employee2);
 //		employeeRepository.delete(employee5);
 		}
 	}
