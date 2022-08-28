@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -25,6 +26,7 @@ public class User {
 	private String lastName;
 	
 	@NotBlank(message = "Email is mandatory")
+	@Email(message = "Invalid email")
 	@Column(name = "email", nullable = false)
 	private String email;
 
