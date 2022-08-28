@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,8 +23,12 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/users")
-	public String showUserList(Model model) {
-		model.addAttribute("users", userService.getUsers());
+	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,Model model) {
+		int pageSize = 3;
+		Page<User> pageUser = userService.findAll(pageNo, pageSize);
+		List<User> users = pageUser.getContent();
+		
+		model.addAttribute("users", users);
 		return "users";
 	}
 
