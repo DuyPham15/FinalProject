@@ -23,10 +23,20 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/users")
-	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,Model model) {
+	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
+			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
+			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
+			Model model) {
 		int pageSize = 3;
-		Page<User> pageUser = userService.findAll(pageNo, pageSize);
+		Page<User> pageUser = userService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<User> users = pageUser.getContent();
+		
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", pageUser.getTotalPages());
+		model.addAttribute("totalItems", pageUser.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		
 		model.addAttribute("users", users);
 		return "users";
