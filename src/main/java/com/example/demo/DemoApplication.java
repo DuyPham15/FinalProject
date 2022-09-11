@@ -16,14 +16,19 @@ import com.example.demo.entities.Employee;
 import com.example.demo.entities.EmployeeDetail;
 import com.example.demo.entities.Permission;
 import com.example.demo.repository.EmployeeRepository;
+import com.example.demo.service.UserService;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner{
 	
 	@Autowired
 	private Customer customer;
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -33,6 +38,10 @@ public class DemoApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("CommandLineRunner");
+		
+		if(userService.getByUserName("admin") == null){
+			userService.createDefaultAdmin();
+		}
 		
 //		Department dept = new Department();
 //		dept.setName("IT");
