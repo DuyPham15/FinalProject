@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>Đăng nhập</title>
+</head>
+<body class="text-center">
+	<div class="container mt-5 mb-5">
+		<h3>Đăng nhập</h3>
+		<form class="form-signin" method="post" action="login">
+			<input type="text" name="username" class="form-control input_username" id="username" size="20" placeholder="Tên đăng nhập">
+			<input type="text" name="password" class="form-control input_password" id="password" size="20" placeholder="Password">
+			
+		</form>
+	</div>
