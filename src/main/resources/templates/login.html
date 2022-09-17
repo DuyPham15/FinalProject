@@ -4,15 +4,18 @@
 	layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/css/login.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
 <title>Đăng nhập</title>
 </head>
-<body class="text-center">
-	<div class="container mt-5 mb-5">
+<body class="background">
+	<div class="container mt-5 mb-5 text-center background">
 		<h3>Đăng nhập</h3>
-		<form class="form-signin" method="post" action="login">
-			<input type="text" name="username" class="form-control input_username" id="username" size="20" placeholder="Tên đăng nhập">
-			<input type="text" name="password" class="form-control input_password" id="password" size="20" placeholder="Password">
-			
+		<form class="loginServlet " method="post" action="login">
+			<input type="text" name="username" class="form-control input_username mb-3 mt-5" id="username" placeholder="Tên đăng nhập"/>
+			<input type="text" name="password" class=" form-control input_password mb-3" id="password" placeholder="Password"/>
+			<input class="large-button float-right first-button" type="button" name="subsmit" value="Đăng nhập" onclick="login()"/>			
 		</form>
 	</div>
+</body>
