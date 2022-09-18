@@ -15,16 +15,16 @@
 						<thead>
 							<tr>
 								<th>
-									<a th:href="@{/users?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}">ID</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}">ID</a>
 								</th>
 								<th>
-									<a th:href="@{/users?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}">First Name</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}">First Name</a>
 								</th>
 								<th>
-									<a th:href="@{/users?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}">Last Name</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}">Last Name</a>
 								</th>
 								<th>
-									<a th:href="@{/users?(page=${currentPage},sortField='email',sortDir=${reverseSortDir})}">Email</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='email',sortDir=${reverseSortDir})}">Email</a>
 								</th>
 								<th>Action</th>
 							</tr>
@@ -36,8 +36,8 @@
 								<td th:text="${user.lastName}"></td>
 								<td th:text="${user.email}"></td>
 								<td>
-								<a class="btn btn-primary" th:href="@{/edituser?(userId=${user.id})}" role="button">Edit</a>
-								<a class="btn btn-primary" th:href="@{/deleteuser?(userId=${user.id})}" role="button">Delete</a>
+								<a class="btn btn-primary" th:href="@{/admin/edituser?(userId=${user.id})}" role="button">Edit</a>
+								<a class="btn btn-primary" th:href="@{/admin/deleteuser?(userId=${user.id})}" role="button">Delete</a>
 								</td>								
 							</tr>
 						</tbody>
@@ -46,25 +46,25 @@
 					  <ul class="pagination">
 					  
 					    <li th:if="${currentPage > 1}" class="page-item">
-					    	<a class="page-link" th:href="@{/users?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
+					    	<a class="page-link" th:href="@{/admin/users?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
 					    </li>
 					    <li th:if="${currentPage <= 1}" class="page-item disabled">
 					    	<a class="page-link" href="#">Previous</a>
 					    </li>					    
 					   					    
 					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
-					    	<a class="page-link" th:text=${i} th:href="@{/users?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
+					    	<a class="page-link" th:text=${i} th:href="@{/admin/users?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
 					    </li>
 					    
 					    <li th:if="${currentPage < totalPages}" class="page-item">
-					    	<a class="page-link" th:href="@{/users?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
+					    	<a class="page-link" th:href="@{/admin/users?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
 					    </li>
 					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
 					    	<a class="page-link" href="#">Next</a>
 					    </li>
 					  </ul>
 					</nav>
-					<a class="btn btn-primary" th:href="@{/signup}" role="button">New User</a>
+					<a class="btn btn-primary" th:href="@{/admin/signup}" role="button">New User</a>
 				</div>
 			</div>
 		</div>

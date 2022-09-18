@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout}">
+	>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css/login.css" type="text/css">
@@ -9,13 +8,13 @@
 
 <title>Đăng nhập</title>
 </head>
-<body class="background">
-	<div class="container mt-5 mb-5 text-center background">
+<body>
+	<div class="container mt-5 mb-5 text-center">
 		<h3>Đăng nhập</h3>
 		<form class="loginServlet " method="post" action="login">
 			<input type="text" name="username" class="form-control input_username mb-3 mt-5" id="username" placeholder="Tên đăng nhập"/>
-			<input type="text" name="password" class=" form-control input_password mb-3" id="password" placeholder="Password"/>
-			<input class="large-button float-right first-button" type="button" name="subsmit" value="Đăng nhập" onclick="login()"/>			
+			<input type="password" name="password" class=" form-control input_password mb-3" id="password" placeholder="Password"/>
+			<input class="large-button float-right first-button" type="submit" name="subsmit" value="Đăng nhập"/>			
 		</form>
 	</div>
 </body>
