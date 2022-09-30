@@ -9,9 +9,9 @@
 	<div layout:fragment="content">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<h2 class="my-5">Users</h2>
-					<table class="table">
+					<table class="table table-secondary table-striped-columns">
 						<thead>
 							<tr>
 								<th>
@@ -22,19 +22,19 @@
 								</th>
 								<th>
 									<a th:href="@{/admin/users?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}">Last Name</a>
-								</th>
+								</th>								
 								<th>
-									<a th:href="@{/admin/users?(page=${currentPage},sortField='email',sortDir=${reverseSortDir})}">Email</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='userName',sortDir=${reverseSortDir})}">User Name</a>
 								</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="user: ${users}">
-								<td th:text="${user.id}"></td>
+								<td><a th:href="@{/admin/viewuser?(userId=${user.id})}" th:text="${user.id}"></a></td>
 								<td th:text="${user.firstName}"></td>
-								<td th:text="${user.lastName}"></td>
-								<td th:text="${user.email}"></td>
+								<td th:text="${user.lastName}"></td>								
+								<td th:text="${user.userName}"></td>
 								<td>
 								<a class="btn btn-primary" th:href="@{/admin/edituser?(userId=${user.id})}" role="button">Edit</a>
 								<a class="btn btn-primary" th:href="@{/admin/deleteuser?(userId=${user.id})}" role="button">Delete</a>

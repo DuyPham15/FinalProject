@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{manage}">
+<head>
+<title>Food Page</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10">
+					<h2 class="my-5">Foods</h2>
+					<table class="table table-secondary table-striped-columns">
+						<thead>
+							<tr>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}">ID</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='foodCode',sortDir=${reverseSortDir})}">Food Code</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='description',sortDir=${reverseSortDir})}">Description</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='quantity',sortDir=${reverseSortDir})}">Quantity</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='price',sortDir=${reverseSortDir})}">Price</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='priceSpecial',sortDir=${reverseSortDir})}">Price Special</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='priceSpecialStart',sortDir=${reverseSortDir})}">Special Start</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='priceSpecialEnd',sortDir=${reverseSortDir})}">Special End</a>
+								</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="food: ${foods}">
+								<td th:text="${food.id}"></td>
+								<td th:text="${food.code}"></td>
+								<td th:text="${food.description}"></td>
+								<td th:text="${food.quantity}"></td>
+								<td th:text="${food.price}"></td>
+								<td th:text="${food.priceSpecial}"></td>
+								<td th:text="${food.priceSpecialStart}"></td>
+								<td th:text="${food.priceSpecialEnd}"></td>
+								<td>
+								<a class="btn btn-primary" th:href="@{/admin/editfood?(foodId=${food.id})}" role="button">Edit</a>
+								<a class="btn btn-primary" th:href="@{/admin/deletefood?(foodId=${food.id})}" role="button">Delete</a>
+								</td>								
+							</tr>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					  
+					    <li th:if="${currentPage > 1}" class="page-item">
+					    	<a class="page-link" th:href="@{/admin/foods?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
+					    </li>
+					    <li th:if="${currentPage <= 1}" class="page-item disabled">
+					    	<a class="page-link" href="#">Previous</a>
+					    </li>					    
+					   					    
+					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
+					    	<a class="page-link" th:text=${i} th:href="@{/admin/foods?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
+					    </li>
+					    
+					    <li th:if="${currentPage < totalPages}" class="page-item">
+					    	<a class="page-link" th:href="@{/admin/foods?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
+					    </li>
+					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
+					    	<a class="page-link" href="#">Next</a>
+					    </li>
+					  </ul>
+					</nav>
+					<a class="btn btn-primary" th:href="@{/admin/addfood}" role="button">New Food</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
