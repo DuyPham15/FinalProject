@@ -63,6 +63,21 @@ public class UserService {
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmail(user.getEmail());
+		currentUser.setPhoneNumber(user.getPhoneNumber());
+		currentUser.setUserName(user.getUserName());
+		currentUser.setPassword(user.getPassword());
+		currentUser.setPermissions(user.getPermissions());
+		return userReposity.save(currentUser);
+	}
+	
+	public User updateProfile(User user, Long id) {
+		User currentUser = findUserById(id);
+		currentUser.setFirstName(user.getFirstName());
+		currentUser.setLastName(user.getLastName());
+		currentUser.setEmail(user.getEmail());
+		currentUser.setPhoneNumber(user.getPhoneNumber());
+		currentUser.setUserName(user.getUserName());
+		currentUser.setPassword(user.getPassword());
 		return userReposity.save(currentUser);
 	}
 

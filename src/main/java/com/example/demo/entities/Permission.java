@@ -16,7 +16,7 @@ public class Permission {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue
-	private int id;
+	private long id;
 	
 	@Column(name = "role")
 	private String role;
@@ -27,7 +27,7 @@ public class Permission {
 	@ManyToMany(mappedBy = "permissions")
 	private List<User> users;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

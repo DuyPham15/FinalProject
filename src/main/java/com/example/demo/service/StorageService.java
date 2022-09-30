@@ -20,6 +20,9 @@ public class StorageService {
 		// Tên file gốc tại Client.
 		String name = fileData.getOriginalFilename();
 		File uploadRootDir = new File(uploadRootPath);
+		if (!uploadRootDir.exists()) {
+			uploadRootDir.mkdir();
+		}
 		System.out.println("Client File Name = " + name);
 		if (name != null && name.length() > 0) {
 			try {

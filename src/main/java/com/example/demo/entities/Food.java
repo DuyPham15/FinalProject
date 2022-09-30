@@ -13,8 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import net.bytebuddy.utility.nullability.MaybeNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "food")
@@ -27,25 +29,27 @@ public class Food {
 
 	@NotBlank(message = "Code is mandatory")
 	@Column(name = "food_code", nullable = false)
-	private long code;
+	private String foodCode;
 
 	@Column(name = "food_description")
 	private String description;
 
-	@NotBlank(message = "Quantity is mandatory")
+	@NotNull(message = "Quantity is mandatory")
 	@Column(name = "food_quantity", nullable = false)
 	private long quantity;
 
-	@NotBlank(message = "Price is mandatory")
+	@NotNull(message = "Price is mandatory")
 	@Column(name = "food_price", nullable = false)
 	private long price;
 
 	@Column(name = "food_price_special")
 	private long priceSpecial;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "food_price_special_start")
 	private Date priceSpecialStart;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "food_price_special_end")
 	private Date priceSpecialEnd;
 
@@ -85,12 +89,12 @@ public class Food {
 		this.id = id;
 	}
 
-	public long getCode() {
-		return code;
+	public String getCode() {
+		return foodCode;
 	}
 
-	public void setCode(long code) {
-		this.code = code;
+	public void setCode(String code) {
+		this.foodCode = code;
 	}
 
 	public String getDescription() {

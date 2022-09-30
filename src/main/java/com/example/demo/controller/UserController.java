@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entities.Permission;
 import com.example.demo.entities.User;
+import com.example.demo.service.PermissionService;
+import com.example.demo.service.StorageService;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -23,13 +32,22 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PermissionService permissionService;
+	
+	@Autowired
+	private StorageService storageService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/users")
 	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
 			Model model) {
-		int pageSize = 3;
+		int pageSize = 5;
 		Page<User> pageUser = userService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<User> users = pageUser.getContent();
 		
@@ -52,36 +70,80 @@ public class UserController {
 
 	@GetMapping("/edituser")
 	public String showEditForm(@RequestParam(name = "userId") Long id, Model model) {
+		List<Permission> permissions = permissionService.getAllPermissions();
 		User user = userService.findUserById(id);
 		model.addAttribute("user", user);
+		model.addAttribute("allPermissions", permissions);
 		return "edit-user";
 	}
 	
 	@GetMapping("/deleteuser")
 	public String deleteUser(@RequestParam(name = "userId") Long id) {
 		userService.deleteUser(id);
-		return "redirect:/users";
+		return "redirect:/admin/users";
+	}
+	
+	@GetMapping("/viewuser")
+	public String showUserInfo(@RequestParam(name = "userId") Long id, Model model) {
+		User user = userService.findUserById(id);
+		model.addAttribute("user", user);
+		return "view-user";
+	}
+	
+	@GetMapping("/profile")
+	public String showEditProfileForm(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userName = authentication.getName();
+		User user = userService.getByUserName(userName);
+		model.addAttribute("user", user);
+		return "edit-profile";
 	}
 
 	@PostMapping("/adduser")
-	public String addUser(@Valid User user, BindingResult result, Model model) {
+	public String addUser(@Valid User user, BindingResult result, Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "add-user";
 		}
+		String uploadRootPath = request.getServletContext().getRealPath("upload");
+		System.out.println("uploadRootPath=" + uploadRootPath);
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
+		user.setProfileImageName(file.getName());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setIsActive(true);		
 		userService.saveUser(user);
 
-		return "redirect:/users";
+		return "redirect:/admin/users";
 	}
 
 	@PostMapping("/updateuser")
 	public String updateUser(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
-			Model model) {
+			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
+			List<Permission> permissions = permissionService.getAllPermissions();
+			model.addAttribute("permissions", permissions);
 			user.setId(id);
 			return "edit-user";
 		}
+		String uploadRootPath = request.getServletContext().getRealPath("upload");
+		System.out.println("uploadRootPath=" + uploadRootPath);
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
+		user.setProfileImageName(file.getName());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userService.updateUser(user, id);
 
-		return "redirect:/users";
+		return "redirect:/admin/users";
+	}	
+	
+	@PostMapping("/updateprofile")
+	public String updateProfile(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			user.setId(id);
+			return "edit-profile";
+		}
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userService.updateUser(user, id);
+
+		return "redirect:/admin/manage";
 	}
 }

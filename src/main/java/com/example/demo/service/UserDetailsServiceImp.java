@@ -18,7 +18,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 	@Autowired
 	private UserService userService;
 	public final static String ROLE_PREFIX = "ROLE_";// Spring Security 4
-	public final static String PERMISSION_AUTHENTICATED = "AUTH";
+	public final static String PERMISSION_AUTHENTICATED = "USER";
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

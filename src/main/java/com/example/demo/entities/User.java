@@ -12,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "user")
@@ -55,6 +58,12 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Permission> permissions;
+	
+	@Column(name = "PROFILE_IMAGE_NAME", nullable = true)
+	private String profileImageName;
+	
+	@Transient
+	private MultipartFile profileImageFile = null;
 
 	public User() {
 	}
@@ -137,6 +146,22 @@ public class User {
 
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getProfileImageName() {
+		return profileImageName;
+	}
+
+	public void setProfileImageName(String profileImageName) {
+		this.profileImageName = profileImageName;
+	}
+
+	public MultipartFile getProfileImageFile() {
+		return profileImageFile;
+	}
+
+	public void setProfileImageFile(MultipartFile profileImageFile) {
+		this.profileImageFile = profileImageFile;
 	}
 	
 	
