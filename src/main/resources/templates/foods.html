@@ -9,7 +9,7 @@
 	<div layout:fragment="content">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-10">
+				<div class="col-md-12">
 					<h2 class="my-5">Foods</h2>
 					<table class="table table-secondary table-striped-columns">
 						<thead>
@@ -19,6 +19,9 @@
 								</th>
 								<th>
 									<a th:href="@{/admin/foods?(page=${currentPage},sortField='foodCode',sortDir=${reverseSortDir})}">Food Code</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='description',sortDir=${reverseSortDir})}">Category</a>
 								</th>
 								<th>
 									<a th:href="@{/admin/foods?(page=${currentPage},sortField='description',sortDir=${reverseSortDir})}">Description</a>
@@ -38,20 +41,21 @@
 								<th>
 									<a th:href="@{/admin/foods?(page=${currentPage},sortField='priceSpecialEnd',sortDir=${reverseSortDir})}">Special End</a>
 								</th>
-								<th>Action</th>
+								<th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="food: ${foods}">
 								<td th:text="${food.id}"></td>
 								<td th:text="${food.code}"></td>
+								<td th:text="${food.category.name}"></td>								
 								<td th:text="${food.description}"></td>
 								<td th:text="${food.quantity}"></td>
 								<td th:text="${food.price}"></td>
 								<td th:text="${food.priceSpecial}"></td>
 								<td th:text="${food.priceSpecialStart}"></td>
 								<td th:text="${food.priceSpecialEnd}"></td>
-								<td>
+								<td sec:authorize="hasAnyRole('ADMIN','MANAGER')">
 								<a class="btn btn-primary" th:href="@{/admin/editfood?(foodId=${food.id})}" role="button">Edit</a>
 								<a class="btn btn-primary" th:href="@{/admin/deletefood?(foodId=${food.id})}" role="button">Delete</a>
 								</td>								
@@ -80,7 +84,8 @@
 					    </li>
 					  </ul>
 					</nav>
-					<a class="btn btn-primary" th:href="@{/admin/addfood}" role="button">New Food</a>
+					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-primary" th:href="@{/admin/addfood}" role="button">New Food</a>
+					
 				</div>
 			</div>
 		</div>

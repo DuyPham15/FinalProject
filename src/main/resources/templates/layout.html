@@ -48,11 +48,11 @@ fit=no">
 										    <li><a class="dropdown-item text-secondary fw-semibold ps-0" th:href="@{/}">>  THỰC PHẨM KHÔ</a></li>
 										    <li><a class="dropdown-item text-secondary fw-semibold ps-0" th:href="@{/}">>  BÁNH & RONG BIỂN ĂN LIỀN</a></li>
 										    <li><a class="dropdown-item text-secondary fw-semibold ps-0 pb-4" th:href="@{/}">>  COMBO ĂN VẶT</a></li>
-										    <li><a type="button" class="btn btn-outline-primary fw-semibold border border-primary border-3 p-1" th:href="@{/}">XEM TẤT CẢ</a></li>
+										    <li><a type="button" class="btn btn-outline-primary fw-semibold border border-primary border-3 p-1" th:href="@{/products}">XEM TẤT CẢ</a></li>
 										</ul>
 									</li>
 									<li class="nav-item"><a class="nav-link active fw-bolder text-secondary"
-										aria-current="page" th:href="@{/}">GIỚI THIỆU</a></li>
+										aria-current="page" th:href="@{/about}">GIỚI THIỆU</a></li>
 									<li class="nav-item"><a class="nav-link active fw-bolder text-secondary"
 										aria-current="page" th:href="@{/admin/login}">QUẢN LÝ</a></li>																								
 								</ul>
@@ -75,39 +75,40 @@ fit=no">
 			<div class="container">
 				<div class="row pb-5">
 					<div class="col-md-3">
-						<h6 class="fw-bolder">Về chúng tôi</h6>
+						<h5 class="fw-bolder">Về chúng tôi</h5>
 						<p>Website chính thức và duy nhất của MixiFood. Hiện tại chúng mình chỉ nhận đơn hàng trên website chứ không nhận bất kỳ
 						nơi nào khác nhé!</p>
 					</div>
 					
-					<div class="col-md-3 fs-5">
-						<h6 class="fw-bolder ps-2">Danh mục sản phẩm</h6>
-							<ul>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Thực phẩm khô</a></li>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Bánh & rong biển ăn liền</a></li>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Combo ăn vặt</a></li>								
-							</ul>
-					</div>
-					
-					<div class="col-md-3 fs-5">
-						<h6 class="fw-bolder ps-2">Thông tin</h6>
-							<ul>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Giới thiệu</a></li>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Chính sách bảo mật</a></li>
-								<li><a th:href="@{/}" style="text-decoration: none; color: 007784;">Điều khoản</a></li>								
+					<div class="col-md-3">
+						<h5 class="fw-bolder ps-2">Danh mục sản phẩm</h5>
+							<ul class="fs-6">
+								<li><a th:href="@{/}" style="text-decoration: none; color: #28bcbe;">Thực phẩm khô</a></li>
+								<li><a th:href="@{/}" style="text-decoration: none; color: #28bcbe;">Bánh & rong biển ăn liền</a></li>
+								<li><a th:href="@{/}" style="text-decoration: none; color: #28bcbe;">Combo ăn vặt</a></li>								
 							</ul>
 					</div>
 					
 					<div class="col-md-3">
-						<h6 class="fw-bolder">Hỗ trợ</h6>
+						<h5 class="fw-bolder ps-2">Thông tin</h5>
+							<ul class="fs-6">
+								<li><a th:href="@{/about}" style="text-decoration: none; color: #28bcbe;">Giới thiệu</a></li>
+								<li><a th:href="@{/privacy}" style="text-decoration: none; color: #28bcbe;">Chính sách bảo mật</a></li>
+								<li><a th:href="@{/terms}" style="text-decoration: none; color: #28bcbe;">Điều khoản</a></li>								
+							</ul>
+					</div>
+					
+					<div class="col-md-3">
+						<h5 class="fw-bolder">Hỗ trợ</h5>
 						<p>Mọi thắc mắc và góp ý cần hỗ trợ xin vui lòng liên hệ Fanpage và Instagram</p>
 						<a th:href="@{https://www.facebook.com/mixifood}"><i class="bi bi-facebook" style="font-size:20px" th:href="@{/}"></i></a>
 						<a th:href="@{https://www.instagram.com/mixi_food}"><i class="bi bi-instagram" style="font-size:20px"></i></a>
 					</div>
-			</div>
-			<div class="row pt-5">
-				<div class="col-md-12">
-					<p class="text-muted">Copyright 2022 &copy; MixiFood</p>
+				</div>
+				<div class="row pt-5">
+					<div class="col-md-12">
+						<p class="text-muted">Copyright 2022 &copy; MixiFood</p>
+					</div>
 				</div>
 			</div>
 		</section>	

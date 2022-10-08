@@ -26,7 +26,7 @@
 								<th>
 									<a th:href="@{/admin/categories?(page=${currentPage},sortField='categoryDescription',sortDir=${reverseSortDir})}">Description</a>
 								</th>								
-								<th>Action</th>
+								<th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -35,7 +35,7 @@
 								<td th:text="${category.name}"></td>
 								<td th:text="${category.title}"></td>
 								<td th:text="${category.description}"></td>								
-								<td>
+								<td sec:authorize="hasAnyRole('ADMIN','MANAGER')">
 								<a class="btn btn-primary" th:href="@{/admin/editcategory?(categoryId=${category.id})}" role="button">Edit</a>
 								<a class="btn btn-primary" th:href="@{/admin/deletecategory?(categoryId=${category.id})}" role="button">Delete</a>
 								</td>								
@@ -64,7 +64,7 @@
 					    </li>
 					  </ul>
 					</nav>
-					<a class="btn btn-primary" th:href="@{/admin/addcategory}" role="button">New Category</a>
+					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-primary" th:href="@{/admin/addcategory}" role="button">New Category</a>
 				</div>
 			</div>
 		</div>

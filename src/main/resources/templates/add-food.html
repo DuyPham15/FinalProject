@@ -7,17 +7,31 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container">
+		<div class="container pt-5">
 			<div class="row">
 				<div class="col-md-6">
 				<h2 class="text-center mb-3">Add Food</h2>
-					<form th:action="@{/admin/addfood}" th:object="${food}" method="post">
+					<form enctype="multipart/form-data" th:action="@{/admin/addfood}" th:object="${food}" method="post">
 						<div class="mb-3">
 							<label for="category" class="col-form-label">Category</label>
 	                            <select th:field="*{category}" id="category" class="form-select" >
 	                                <option th:each = "category : ${categories}" th:value="${{category}}" th:text="${category.name}"></option>
 	                            </select>
 						</div>
+						
+						<div class="mb-3">
+							Thumbnail Image: <input th:field="*{thumbnailImageFile}" type="file"/>
+	                    </div>
+						
+						<div class="mb-3">
+							<ul >
+								<li>Images 1: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 2: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 3: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 4: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 5: <input th:field="*{foodImageFiles}" type="file"/></li>								
+							</ul>				
+	                    </div>
 						
 						<div class="mb-3">
 							<label for="foodCode" class="col-form-label">Code</label>

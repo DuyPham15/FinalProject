@@ -10,14 +10,35 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-				<h2 class="text-center mb-3">Edit Food</h2>
-					<form th:action="@{/admin/updatefood?(foodId=${food.id})}" th:object="${food}" method="post">
+				<h2 class="text-center mb-3">Edit Food</h2>				
+					<form enctype="multipart/form-data" th:action="@{/admin/updatefood?(foodId=${food.id})}" th:object="${food}" method="post">
 						<div class="mb-3">
 							<label for="category" class="col-form-label">Category</label>
 	                            <select th:field="*{category}" id="category" class="form-select" >
 	                                <option th:each = "category : ${categories}" th:value="${{category}}" th:text="${category.name}"></option>
 	                            </select>
 						</div>
+						
+						<div class="form-group col-md-6"> 
+                            Thumbnail Image: 
+                            <a th:href="@{/upload/{path}(path=${food.thumbnailImageName})}">
+                                <img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}"  width="100px" height="100px"/>
+                            </a>
+                            <input th:field="*{thumbnailImageFile}" type="file"/>
+                        </div>
+						
+						<a th:each="i : ${food.images}">
+                        	<img th:attr="src=@{/upload/{path}(path=${i.imageName})}"  width="100px" height="100px"/>
+                        </a>
+						<div class="mb-3">
+							<ul >
+								<li>Images 1: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 2: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 3: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 4: <input th:field="*{foodImageFiles}" type="file"/></li>
+								<li>Images 5: <input th:field="*{foodImageFiles}" type="file"/></li>								
+							</ul>				
+	                    </div>
 						
 						<div class="mb-3">
 							<label for="code" class="col-form-label">Code</label>
