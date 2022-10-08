@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Entity
@@ -57,10 +61,7 @@ public class Food {
 	private Boolean isAvailable=false;
 
 	@Column(name = "IS_FREE_FREESHIPPING", length = 1)
-	private Boolean isFreeShipping=false;
-	
-	@OneToMany(mappedBy = "food")
-	private List<FoodImage> images;
+	private Boolean isFreeShipping=false;	
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Category category;
@@ -71,7 +72,17 @@ public class Food {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private OrderDetail orderDetail;
 	
+	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+	private List<FoodImage> images = new ArrayList<FoodImage>();
 	
+	@Transient
+	private List<MultipartFile> foodImageFiles = null;
+	
+	@Column(name = "THUMBNAIL_IMAGE_NAME", nullable = true)
+	private String thumbnailImageName;
+	
+	@Transient
+	private MultipartFile thumbnailImageFile = null;
 
 	public OrderDetail getOrderDetail() {
 		return orderDetail;
@@ -184,6 +195,39 @@ public class Food {
 	public void setAttributes(List<FoodAttribute> attributes) {
 		this.attributes = attributes;
 	}
+
+	public String getFoodCode() {
+		return foodCode;
+	}
+
+	public void setFoodCode(String foodCode) {
+		this.foodCode = foodCode;
+	}
+
+	public List<MultipartFile> getFoodImageFiles() {
+		return foodImageFiles;
+	}
+
+	public void setFoodImageFiles(List<MultipartFile> foodImageFiles) {
+		this.foodImageFiles = foodImageFiles;
+	}
+
+	public String getThumbnailImageName() {
+		return thumbnailImageName;
+	}
+
+	public void setThumbnailImageName(String thumbnailImageName) {
+		this.thumbnailImageName = thumbnailImageName;
+	}
+
+	public MultipartFile getThumbnailImageFile() {
+		return thumbnailImageFile;
+	}
+
+	public void setThumbnailImageFile(MultipartFile thumbnailImageFile) {
+		this.thumbnailImageFile = thumbnailImageFile;
+	}
+
 	
 	
 }

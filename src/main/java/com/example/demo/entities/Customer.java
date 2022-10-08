@@ -42,9 +42,8 @@ public class Customer {
 	@Column(name = "customer_city", nullable = false)
 	private String city;
 	
-	@NotBlank(message = "Email is mandatory")
 	@Email(message = "Invalid email")
-	@Column(name = "customer_email", nullable = false)
+	@Column(name = "customer_email")
 	private String email;
 	
 	@Column(name = "PHONE_NUMBER", length = 20)

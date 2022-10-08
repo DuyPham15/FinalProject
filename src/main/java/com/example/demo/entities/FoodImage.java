@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "foodImage")
@@ -19,7 +22,7 @@ public class FoodImage {
 	private long id;
 	
 	@Column(name = "food_image")
-	private String image;
+	private String imageName;
 	
 	@Column(name = "food_default_image")
 	private String defaultImage;
@@ -29,7 +32,10 @@ public class FoodImage {
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Food food;
-
+	
+	@Transient
+	private MultipartFile foodImageFile = null;
+	
 	public long getId() {
 		return id;
 	}
@@ -38,13 +44,6 @@ public class FoodImage {
 		this.id = id;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
 
 	public String getDefaultImage() {
 		return defaultImage;
@@ -69,6 +68,24 @@ public class FoodImage {
 	public void setFood(Food food) {
 		this.food = food;
 	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public MultipartFile getFoodImageFile() {
+		return foodImageFile;
+	}
+
+	public void setFoodImageFile(MultipartFile foodImageFile) {
+		this.foodImageFile = foodImageFile;
+	}
+
+	
 	
 	
 }
