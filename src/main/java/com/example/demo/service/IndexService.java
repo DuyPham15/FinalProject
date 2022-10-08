@@ -18,7 +18,7 @@ import com.example.demo.repository.FoodImageRepository;
 import com.example.demo.repository.FoodRepository;
 
 @Service
-public class FoodService {
+public class IndexService {
 
 	@Autowired
 	private FoodRepository foodRepository;
@@ -39,9 +39,6 @@ public class FoodService {
 	}
 	
 	public Food saveFood(Food food, String uploadRootPath) {
-		File file = storageService.store(food.getThumbnailImageFile(), uploadRootPath);//		
-		food.setThumbnailImageName(file.getName());
-		
 		List<MultipartFile> files = food.getFoodImageFiles();
 		List<File> resultUploads = storageService.storeMultiFiles(files, uploadRootPath);
 		for(File imageFile: resultUploads) {
@@ -66,16 +63,10 @@ public class FoodService {
 		currentFood.setPriceSpecialStart(food.getPriceSpecialStart());
 		currentFood.setPriceSpecialEnd(food.getPriceSpecialEnd());
 		currentFood.setCategory(food.getCategory());
-		
-		File file = storageService.store(food.getThumbnailImageFile(), uploadRootPath);
-		if(file!=null) {
-			food.setThumbnailImageName(file.getName());
-			currentFood.setThumbnailImageName(food.getThumbnailImageName());
-		}
-		
 		List<MultipartFile> files = food.getFoodImageFiles();
 		if (files!=null) {
 			foodImageRepository.deleteByFoodId(id);
+
 		}
 
 		List<File> resultUploads = storageService.storeMultiFiles(files, uploadRootPath);

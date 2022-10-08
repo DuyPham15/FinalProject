@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,10 @@ import com.example.demo.repository.UserRepository;
 public class UserService {
 
 	@Autowired
-	private UserRepository userReposity;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private StorageService storageService;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -46,52 +50,73 @@ public class UserService {
 		user.setLastName("User");		
 		user.setIsActive(true);
 		user.setPermissions(permissions);
-		userReposity.save(user);
+		userRepository.save(user);
 	}
 
 	public List<User> getUsers() {
-		return this.userReposity.findAll();
+		return this.userRepository.findAll();
 	}
 
 	public User saveUser(User user) {
-		User savedUser = userReposity.save(user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setIsActive(true);
+		User savedUser = userRepository.save(user);
 		return savedUser;
 	}
+	
+	public User saveUser(User user, String uploadRootPath) {
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);//		
+		user.setProfileImageName(file.getName());
+		this.saveUser(user);
+		return user;
+	}
 
-	public User updateUser(User user, Long id) {
+	public User updateUser(User user, Long id, String uploadRootPath) {
 		User currentUser = findUserById(id);
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhoneNumber(user.getPhoneNumber());
 		currentUser.setUserName(user.getUserName());
-		currentUser.setPassword(user.getPassword());
+		currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		currentUser.setPermissions(user.getPermissions());
-		return userReposity.save(currentUser);
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
+		if(file!=null) {
+			user.setProfileImageName(file.getName());
+			currentUser.setProfileImageName(user.getProfileImageName());
+		}
+		
+		return userRepository.save(currentUser);
 	}
 	
-	public User updateProfile(User user, Long id) {
+	public User updateProfile(User user, Long id, String uploadRootPath) {
 		User currentUser = findUserById(id);
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhoneNumber(user.getPhoneNumber());
 		currentUser.setUserName(user.getUserName());
-		currentUser.setPassword(user.getPassword());
-		return userReposity.save(currentUser);
+		currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
+		if (file!=null) {
+			user.setProfileImageName(file.getName());
+			currentUser.setProfileImageName(user.getProfileImageName());
+		}
+		
+		return userRepository.save(currentUser);
 	}
 
 	public void deleteUser(Long id) {
-		userReposity.deleteById(id);
+		userRepository.deleteById(id);
 	}
 
 	public User findUserById(Long id) {
-		Optional<User> optionalUser = userReposity.findById(id);
+		Optional<User> optionalUser = userRepository.findById(id);
 		return optionalUser.get();
 	}
 
 	public User getByUserName(String userName) {
-		return userReposity.findByUserName(userName);
+		return userRepository.findByUserName(userName);
 
 	}
 
@@ -100,7 +125,7 @@ public class UserService {
 				: Sort.by(sortField).descending();
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-		Page<User> pageUser = userReposity.findAll(pageable);
+		Page<User> pageUser = userRepository.findAll(pageable);
 		return pageUser;
 	}
 }

@@ -15,6 +15,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class StorageService {
 	@Autowired
 	private ResourceLoader resourceLoader;
+	
+	public List<File> storeMultiFiles(List<MultipartFile> fileDataList, String uploadRootPath){
+		List<File> results = new ArrayList<>();
+		for(MultipartFile file : fileDataList) {
+			File savedFile= this.store(file, uploadRootPath);
+			results.add(savedFile);
+		}
+		return results;
+	}
 
 	public File store(MultipartFile fileData, String uploadRootPath) {
 		// Tên file gốc tại Client.
