@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class FoodController {
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
 			Model model) {
-		int pageSize = 3;
+		int pageSize = 12;
 		Page<Food> pageFood = foodService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Food> foods = pageFood.getContent();
 		
@@ -51,7 +52,7 @@ public class FoodController {
 
 	@GetMapping("/addfood")
 	public String showSignUpForm(Model model) {
-		List<Category> categories = categoryService.getCategories();
+		List<Category> categories = categoryService.getCategories();		
 		model.addAttribute("food", new Food());
 		model.addAttribute("categories", categories);
 		return "add-food";
@@ -73,23 +74,29 @@ public class FoodController {
 	}
 
 	@PostMapping("/addfood")
-	public String addUser(@Valid Food food, BindingResult result, Model model) {
+	public String addUser(@Valid Food food, BindingResult result, Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "add-food";
 		}		
-		foodService.saveFood(food);
+		String uploadRootPath = request.getServletContext().getRealPath("upload");
+		System.out.println("uploadRootPath=" + uploadRootPath);	
+		foodService.saveFood(food, uploadRootPath);
 
 		return "redirect:/admin/foods";
 	}
 
 	@PostMapping("/updatefood")
 	public String updateFood(@RequestParam(name = "foodId") Long id, @Valid Food food, BindingResult result,
-			Model model) {
+			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			food.setId(id);
+			List<Category> categories = categoryService.getCategories();
+			model.addAttribute("categories", categories);
 			return "edit-food";
 		}
-		foodService.updateFood(food, id);
+		String uploadRootPath = request.getServletContext().getRealPath("upload");
+		System.out.println("uploadRootPath=" + uploadRootPath);	
+		foodService.updateFood(food, id, uploadRootPath);
 		return "redirect:/admin/foods";
 	}
 }

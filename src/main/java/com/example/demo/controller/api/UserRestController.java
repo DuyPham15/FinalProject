@@ -46,8 +46,8 @@ public class UserRestController {
 	}
 	
 	@PutMapping({"/{userId}"})
-	public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user) {
-		userService.updateUser(user, userId);
+	public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user, String uploadRootPath) {
+		userService.updateUser(user, userId, uploadRootPath);
 		User savedUser = userService.findUserById(userId);
 		return new ResponseEntity<>(savedUser, HttpStatus.OK);
 	}

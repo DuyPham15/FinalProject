@@ -36,11 +36,7 @@ public class UserController {
 	@Autowired
 	private PermissionService permissionService;
 	
-	@Autowired
-	private StorageService storageService;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/users")
 	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
@@ -105,12 +101,9 @@ public class UserController {
 			return "add-user";
 		}
 		String uploadRootPath = request.getServletContext().getRealPath("upload");
-		System.out.println("uploadRootPath=" + uploadRootPath);
-		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
-		user.setProfileImageName(file.getName());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setIsActive(true);		
-		userService.saveUser(user);
+		System.out.println("uploadRootPath=" + uploadRootPath);		
+				
+		userService.saveUser(user, uploadRootPath);
 
 		return "redirect:/admin/users";
 	}
@@ -126,23 +119,23 @@ public class UserController {
 		}
 		String uploadRootPath = request.getServletContext().getRealPath("upload");
 		System.out.println("uploadRootPath=" + uploadRootPath);
-		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
-		user.setProfileImageName(file.getName());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userService.updateUser(user, id);
+		
+		userService.updateUser(user, id, uploadRootPath);
 
 		return "redirect:/admin/users";
 	}	
 	
 	@PostMapping("/updateprofile")
 	public String updateProfile(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
-			Model model) {
+			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			user.setId(id);
 			return "edit-profile";
 		}
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userService.updateUser(user, id);
+		String uploadRootPath = request.getServletContext().getRealPath("upload");
+		System.out.println("uploadRootPath=" + uploadRootPath);
+		
+		userService.updateUser(user, id, uploadRootPath);
 
 		return "redirect:/admin/manage";
 	}
