@@ -18,21 +18,21 @@ import javax.persistence.Table;
 public class Order {
 
 	@Id
-	@Column(name = "order_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(name = "order_date")
+	@Column(name = "date")
 	private Date date;
 	
-	@Column(name = "order_total_quantity")
+	@Column(name = "total_quantity")
 	private long totalQuantity;
 	
-	@Column(name = "order_total_price")
+	@Column(name = "total_price")
 	private long totalPrice;
 	
-	@Column(name = "order_status")
-	private String status;
+	@Column(name = "status")
+	private OrderStatus status;
 	
 	@OneToMany(mappedBy = "order")
 	private List<OrderDetail> orderDetails;
@@ -81,11 +81,11 @@ public class Order {
 		this.totalPrice = totalPrice;
 	}
 
-	public String getStatus() {
+	public OrderStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 

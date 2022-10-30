@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -30,8 +32,7 @@ public class User {
 	@Column(name = "user_name", nullable = false)
 	private String userName;
 	
-	@NotBlank(message = "Password is mandatory")
-	@Column(name = "password", nullable = false)
+	@Column(name = "password")
 	private String password;
 	
 	@NotBlank(message = "First name is mandatory")
@@ -41,6 +42,16 @@ public class User {
 	@NotBlank(message = "Last name is mandatory")
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
+	
+	@Column(name = "gender")
+	private String gender;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "date_of_birth")
+	private Date dateOfBirth;
+	
+	@Column(name = "address")
+	private String address;
 	
 	@NotBlank(message = "Email is mandatory")
 	@Email(message = "Invalid email")
@@ -52,10 +63,7 @@ public class User {
 	
 	@Column(name = "IS_ACTIVE", length = 1)
 	private Boolean isActive=false;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	private Department department;
-	
+			
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Permission> permissions;
 	
@@ -132,14 +140,6 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
 	public List<Permission> getPermissions() {
 		return permissions;
 	}
@@ -162,6 +162,30 @@ public class User {
 
 	public void setProfileImageFile(MultipartFile profileImageFile) {
 		this.profileImageFile = profileImageFile;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	

@@ -30,13 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/","/users", "/products", "/terms", "/privacy", "/about","/css/**","/images/**").permitAll()		
+			.antMatchers("/","/home","/users", "/products", "/viewproduct", "/searchproduct", "/viewcategory", "/buyProduct", "/shop/**",
+					"/terms", "/privacy", "/about", "/css/**", "/js/**", "/images/**","/api/**").permitAll()		
 			.antMatchers("/admin/**").hasRole("EMPLOYEE")
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
 			.loginPage("/login")
-			.defaultSuccessUrl("/admin/manage", true)
+			.defaultSuccessUrl("/admin/home", true)
 			.failureUrl("/login?error")
 			.and()
 			.logout().permitAll().logoutSuccessUrl("/login")

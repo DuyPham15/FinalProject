@@ -22,9 +22,6 @@ public class Permission {
 	private String role;
 	
 	@ManyToMany(mappedBy = "permissions")
-	private List<Employee> employee;
-	
-	@ManyToMany(mappedBy = "permissions")
 	private List<User> users;
 
 	public long getId() {

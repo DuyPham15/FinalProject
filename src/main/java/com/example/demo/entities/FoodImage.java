@@ -17,17 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class FoodImage {
 
 	@Id
-	@Column(name = "food_image_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(name = "food_image")
+	@Column(name = "image_name")
 	private String imageName;
 	
-	@Column(name = "food_default_image")
+	@Column(name = "default_image")
 	private String defaultImage;
 	
-	@Column(name = "food_image_url")
+	@Column(name = "image_url")
 	private String imageURL;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)

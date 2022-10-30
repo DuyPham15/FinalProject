@@ -1,31 +1,18 @@
 package com.example.demo;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.entities.Department;
-import com.example.demo.entities.Employee;
-import com.example.demo.entities.EmployeeDetail;
-import com.example.demo.entities.Permission;
-import com.example.demo.repository.EmployeeRepository;
+
 import com.example.demo.service.UserService;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner{
 	
-	@Autowired
-	private Customer customer;
 	
-	@Autowired
-	private EmployeeRepository employeeRepository;
 	
 	@Autowired
 	private UserService userService;

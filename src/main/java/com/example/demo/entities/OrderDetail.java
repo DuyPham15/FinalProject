@@ -17,24 +17,25 @@ import javax.persistence.Table;
 public class OrderDetail {
 
 	@Id
-	@Column(name = "order_detail_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(name = "order_detail_price")
+	@Column(name = "price")
 	private long price;
 	
-	@Column(name = "order_detail_quantity")
+	@Column(name = "quantity")
 	private long quantity;
+	
+	@Column(name = "amount")
+	private long amount;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Order order;
 	
-	@OneToMany(mappedBy = "orderDetail")
-	private List<Food> foods;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private Food food;
 	
-	
-
 	public Order getOrder() {
 		return order;
 	}
@@ -75,13 +76,23 @@ public class OrderDetail {
 		this.order = orderId;
 	}
 
-	public List<Food> getFoods() {
-		return foods;
+	public Food getFood() {
+		return food;
 	}
 
-	public void setFoods(List<Food> foods) {
-		this.foods = foods;
+	public void setFood(Food food) {
+		this.food = food;
 	}
+
+	public long getAmount() {
+		return amount;
+	}
+
+	public void setAmount(long amount) {
+		this.amount = amount;
+	}
+
+	
 	
 	
 }

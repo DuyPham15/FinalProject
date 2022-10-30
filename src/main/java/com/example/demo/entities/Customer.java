@@ -18,32 +18,36 @@ import javax.validation.constraints.NotBlank;
 public class Customer {
 
 	@Id
-	@Column(name = "customer_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@NotBlank(message = "First name is mandatory")
-	@Column(name = "customer_first_name", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
 	@NotBlank(message = "Last name is mandatory")
-	@Column(name = "customer_last_name", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
-	@NotBlank(message = "Street is mandatory")
-	@Column(name = "customer_street", nullable = false)
-	private String street;
+	@NotBlank(message = "Address is mandatory")
+	@Column(name = "address", nullable = false)
+	private String address;
+	
+	@NotBlank(message = "Ward is mandatory")
+	@Column(name = "ward", nullable = false)
+	private String ward;
 	
 	@NotBlank(message = "District is mandatory")
-	@Column(name = "customer_district", nullable = false)
+	@Column(name = "district", nullable = false)
 	private String district;
 	
 	@NotBlank(message = "City is mandatory")
-	@Column(name = "customer_city", nullable = false)
+	@Column(name = "city", nullable = false)
 	private String city;
 	
 	@Email(message = "Invalid email")
-	@Column(name = "customer_email")
+	@Column(name = "email")
 	private String email;
 	
 	@Column(name = "PHONE_NUMBER", length = 20)
@@ -75,13 +79,21 @@ public class Customer {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	public String getStreet() {
-		return street;
+	
+	public String getAddress() {
+		return address;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getWard() {
+		return ward;
+	}
+
+	public void setWard(String ward) {
+		this.ward = ward;
 	}
 
 	public String getDistrict() {

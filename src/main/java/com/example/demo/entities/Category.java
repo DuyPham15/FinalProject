@@ -16,19 +16,19 @@ import javax.validation.constraints.NotBlank;
 public class Category {
 
 	@Id
-	@Column(name = "category_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@NotBlank(message = "Name is mandatory")
-	@Column(name = "category_name", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@NotBlank(message = "Tittle is mandatory")
-	@Column(name = "category_title", nullable = false)
+	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@Column(name = "category_description")
+	@Column(name = "description")
 	private String description;
 	
 	@OneToMany(mappedBy = "category")
