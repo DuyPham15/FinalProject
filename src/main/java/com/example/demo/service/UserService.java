@@ -37,9 +37,15 @@ public class UserService {
 		String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
 		// create permission
 		Permission adminPermission = new Permission();
+		Permission managerPermission = new Permission();
+		Permission employeePermission = new Permission();
 		adminPermission.setRole("ADMIN");
+		managerPermission.setRole("MANAGER");
+		employeePermission.setRole("EMPLOYEE");
 		List<Permission> permissions = new ArrayList<>();
 		permissions.add(adminPermission);
+		permissions.add(managerPermission);
+		permissions.add(employeePermission);
 		
 		//create new user
 		User user = new User();
@@ -65,8 +71,11 @@ public class UserService {
 	}
 	
 	public User saveUser(User user, String uploadRootPath) {
-		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);//		
+		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
+		
+		if (file != null) {
 		user.setProfileImageName(file.getName());
+		}
 		this.saveUser(user);
 		return user;
 	}
@@ -76,10 +85,18 @@ public class UserService {
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmail(user.getEmail());
+		currentUser.setGender(user.getGender());
+		currentUser.setAddress(user.getAddress());
+		currentUser.setDateOfBirth(user.getDateOfBirth());
 		currentUser.setPhoneNumber(user.getPhoneNumber());
 		currentUser.setUserName(user.getUserName());
-		currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		currentUser.setPermissions(user.getPermissions());
+		
+		String pw = user.getPassword();
+		if (pw != null && !pw.isEmpty()) {
+			currentUser.setPassword(passwordEncoder.encode(pw));
+		}
+		
+		currentUser.setPermissions(user.getPermissions());		
 		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
 		if(file!=null) {
 			user.setProfileImageName(file.getName());
@@ -95,8 +112,16 @@ public class UserService {
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhoneNumber(user.getPhoneNumber());
+		currentUser.setGender(user.getGender());
+		currentUser.setAddress(user.getAddress());
+		currentUser.setDateOfBirth(user.getDateOfBirth());
 		currentUser.setUserName(user.getUserName());
-		currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		String pw = user.getPassword();
+		if (pw != null && !pw.isEmpty()) {
+			currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
+		
 		File file = storageService.store(user.getProfileImageFile(), uploadRootPath);
 		if (file!=null) {
 			user.setProfileImageName(file.getName());

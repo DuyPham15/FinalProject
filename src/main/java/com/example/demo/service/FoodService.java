@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entities.Food;
+import com.example.demo.entities.Attribute;
 import com.example.demo.entities.FoodImage;
 import com.example.demo.repository.FoodImageRepository;
 import com.example.demo.repository.FoodRepository;
@@ -39,8 +40,11 @@ public class FoodService {
 	}
 	
 	public Food saveFood(Food food, String uploadRootPath) {
-		File file = storageService.store(food.getThumbnailImageFile(), uploadRootPath);//		
+		File file = storageService.store(food.getThumbnailImageFile(), uploadRootPath);
+		
+		if (file != null) {
 		food.setThumbnailImageName(file.getName());
+		}
 		
 		List<MultipartFile> files = food.getFoodImageFiles();
 		List<File> resultUploads = storageService.storeMultiFiles(files, uploadRootPath);
@@ -52,6 +56,7 @@ public class FoodService {
 				food.getImages().add(image);
 			}
 		}
+		
 		this.saveFood(food);
 		return food;
 	}
@@ -59,13 +64,15 @@ public class FoodService {
 	public Food updateFood(Food food, Long id, String uploadRootPath) {
 		Food currentFood = findFoodById(id);
 		currentFood.setCode(food.getCode());
-		currentFood.setDescription(food.getDescription());
+		currentFood.setName(food.getName());
 		currentFood.setQuantity(food.getQuantity());
 		currentFood.setPrice(food.getPrice());
 		currentFood.setPriceSpecial(food.getPriceSpecial());
 		currentFood.setPriceSpecialStart(food.getPriceSpecialStart());
 		currentFood.setPriceSpecialEnd(food.getPriceSpecialEnd());
 		currentFood.setCategory(food.getCategory());
+		currentFood.setAttribute(food.getAttribute());
+		currentFood.setDescription(food.getDescription());
 		
 		File file = storageService.store(food.getThumbnailImageFile(), uploadRootPath);
 		if(file!=null) {
@@ -93,15 +100,31 @@ public class FoodService {
 	public void deleteFood(Long id) {
 		foodRepository.deleteById(id);
 	}
-
+	
 	public Food findFoodById(Long id) {
-		Optional<Food> optionalFood = foodRepository.findById(id);
-		return optionalFood.get();
+		return this.foodRepository.findByFoodId(id);
 	}
+	
+	public Food getFoodById(Long id) {
+		return this.foodRepository.findByFoodId(id);
+	}
+	
+	public Page<Food> getFoodByCategoryId(int pageNo, int pageSize, String sortField, String sortDirection, Long id){
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
+				: Sort.by(sortField).descending();
 
-	public Food getByFoodCode(String foodCode) {
-		return foodRepository.findByFoodCode(foodCode);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+		Page<Food> pageFood = foodRepository.findByCategoryId(pageable, id);
+		return pageFood;
+	}		
 
+	public Page<Food> getFoodByKeyword(int pageNo, int pageSize, String sortField, String sortDirection, String keyword){
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
+				: Sort.by(sortField).descending();
+
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+		Page<Food> pageFood = foodRepository.findByKeyword(pageable, keyword);
+		return pageFood;
 	}
 
 	public Page<Food> findAll(int pageNo, int pageSize, String sortField, String sortDirection) {
@@ -112,4 +135,6 @@ public class FoodService {
 		Page<Food> pageFood = foodRepository.findAll(pageable);
 		return pageFood;
 	}
+	
+	
 }

@@ -56,7 +56,7 @@ public class IndexService {
 	public Food updateFood(Food food, Long id, String uploadRootPath) {
 		Food currentFood = findFoodById(id);
 		currentFood.setCode(food.getCode());
-		currentFood.setDescription(food.getDescription());
+		currentFood.setName(food.getName());
 		currentFood.setQuantity(food.getQuantity());
 		currentFood.setPrice(food.getPrice());
 		currentFood.setPriceSpecial(food.getPriceSpecial());
@@ -89,12 +89,7 @@ public class IndexService {
 		Optional<Food> optionalFood = foodRepository.findById(id);
 		return optionalFood.get();
 	}
-
-	public Food getByFoodCode(String foodCode) {
-		return foodRepository.findByFoodCode(foodCode);
-
-	}
-
+	
 	public Page<Food> findAll(int pageNo, int pageSize, String sortField, String sortDirection) {
 		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
 				: Sort.by(sortField).descending();

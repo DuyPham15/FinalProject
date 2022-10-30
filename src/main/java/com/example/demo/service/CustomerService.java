@@ -34,7 +34,8 @@ public class CustomerService {
 		Customer currentCustomer = findCustomerById(id);
 		currentCustomer.setFirstName(customer.getFirstName());
 		currentCustomer.setLastName(customer.getLastName());
-		currentCustomer.setStreet(customer.getStreet());
+		currentCustomer.setAddress(customer.getAddress());
+		currentCustomer.setWard(customer.getWard());
 		currentCustomer.setDistrict(customer.getDistrict());
 		currentCustomer.setCity(customer.getCity());
 		currentCustomer.setEmail(customer.getEmail());
