@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-admin}">
+<head>
+<title>Trang Chi Tiết Đơn Hàng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container pt-5">
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<div class="row ps-3">						
+						<div class="col-md-1">
+							<h6 class="text-secondary">MÃ</h6>
+							<div class="fs-3 fw-bold" th:text="'#'+${order.id}"></div>
+						</div>
+						
+						<div class="col-md-4">
+							<h6 class="text-secondary">TRẠNG THÁI ĐƠN HÀNG</h6>
+							<div class="fs-3 fw-bold" th:switch="${order.status}">
+								<p class="text-info" th:case="${order.status.RECEIVED}">ĐÃ NHẬN ĐƠN HÀNG</p>
+								<p class="text-danger" th:case="${order.status.CANCELED}">HỦY ĐƠN HÀNG</p>
+								<p class="text-warning" th:case="${order.status.PACKAGED}">ĐÓNG GÓI</p>
+								<p class="text-primary" th:case="${order.status.DELIVERIED}">GIAO HÀNG</p>
+								<p class="text-dark" th:case="${order.status.RETURNED}">TRẢ HÀNG</p>
+								<p class="text-success" th:case="${order.status.FINISHED}">HOÀN TẤT</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row ps-3">
+						<div class="fs-3" th:text="${#calendars.format(order.date,'dd/MM/yyyy hh:MM:ss')}"></div>
+					</div>
+					
+					<div class="row pt-5" style="display:flex ;justify-content: center;">
+						<div class="col-md-5">
+							<div class="card" >
+							  <div class="card-body">
+							    <h3 class="card-title fw-bold">Thông Tin Khách Hàng</h3>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-4 card-subtitle text-muted fw-bold">Họ Tên:</div>
+							    	<div class="col-md-8" th:text="${order.customer.lastName}+' '+${order.customer.firstName}"></div>
+							    </div>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-4 card-subtitle text-muted fw-bold">Số Điện Thoại:</div>
+							    	<div class="col-md-8" th:text="${order.customer.phoneNumber}"></div>
+							    </div>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-4 card-subtitle text-muted fw-bold">Email:</div>
+							    	<div class="col-md-8" th:text="${order.customer.email}"></div>
+							    </div>				    
+							  </div>
+							</div>
+						</div>			
+						
+						<div class="col-md-5">
+							<div class="card" >
+							  <div class="card-body">
+							    <h3 class="card-title fw-bold">Thông Tin Giao Hàng</h3>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-5 card-subtitle text-muted fw-bold">Số nhà, tên đường:</div>
+							    	<div class="col-md-7" th:text="${order.customer.address}"></div>
+							    </div>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-5 card-subtitle text-muted fw-bold">Phường, xã:</div>
+							    	<div class="col-md-7" th:text="${order.customer.ward}"></div>
+							    </div>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-5 card-subtitle text-muted fw-bold">Quận, huyện:</div>
+							    	<div class="col-md-7" th:text="${order.customer.district}"></div>
+							    </div>
+							    
+							    <div class="row pt-2">
+							    	<div class="col-md-5 card-subtitle text-muted fw-bold">Thành phố, tỉnh:</div>
+							    	<div class="col-md-7" th:text="${order.customer.city}"></div>
+							    </div>				    
+							  </div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row pt-5">
+						<div class="col-md-12">
+							<table class="table border text-center">
+								<thead>
+									<tr>
+										<th>Ảnh</th>
+										<th>Sản phẩm</th>
+										<th>Số lượng</th>
+										<th>Giá</th>
+										<th>Thành tiền</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="detail : ${order.orderDetails}">
+										<td><img th:attr="src=@{/upload/{path}(path=${detail.food.thumbnailImageName})}" width="10px" height="10px"></td>
+										<td>
+											<div><a th:href="@{/admin/viewFood?(foodId=${detail.food.id})}" style="text-decoration: none" class="text-primary fw-bold" th:text="${detail.food.name}"></a></div>
+											<div th:text="${detail.food.attribute.displayName}+' : '+${detail.food.attribute.value}"></div>
+										</td>
+										<td><div th:text="${detail.quantity}"></div></td>
+										<td><div th:text="${#numbers.formatInteger(detail.food.price,3,'POINT')}+' đ'"></div></td>
+										<td><div th:text="${#numbers.formatInteger(detail.amount,3,'POINT')}+' đ'"></div></td>							
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="row pt-5">
+						<div class="col-md-6"></div>
+						<div class="col-md-3">
+							<h5 class="fw-bolder">Số lượng sản phẩm:</h5>
+							<h5 class="fw-bolder">Phí vận chuyển:</h5>
+							<h5 class="fw-bolder">Tổng tiền hàng:</h5>
+						</div>
+						<div class="col-md-2">
+							<div class="fs-5 fw-bold text-end" th:text="${order.totalQuantity}"></div>
+							<div class="fs-5 fw-bold text-end">30.000 đ</div>
+							<div class="fs-5 fw-bold text-end" th:text="${#numbers.formatInteger(order.totalPrice+30000,3,'POINT')}+' đ'"></div>
+						</div>
+					</div>
+					
+					<div class="row py-5">
+						<div class="col-md-3" style="display:flex ;justify-content: center;">
+							<a th:href="@{/admin/orders}" class="btn btn-outline-secondary" style="width: 100px">Quay lại</a>
+						</div>
+						<div class="col-md-9 text-end">
+							<a class="btn btn-outline-danger fw-bold me-3" th:href="@{/admin/canceledOrder?(orderId=${order.id})}" role="button">Hủy đơn hàng</a>
+							<a class="btn btn-outline-warning fw-bold me-3" th:href="@{/admin/packedOrder?(orderId=${order.id})}" role="button">Đóng gói</a>
+							<a class="btn btn-outline-primary fw-bold me-3" th:href="@{/admin/deliveriedOrder?(orderId=${order.id})}" role="button">Giao hàng</a>
+							<a class="btn btn-outline-dark fw-bold me-3" th:href="@{/admin/returnedOrder?(orderId=${order.id})}" role="button">Trả hàng</a>
+							<a class="btn btn-outline-success fw-bold" th:href="@{/admin/finishedOrder?(orderId=${order.id})}" role="button">Hoàn tất</a>					
+						</div>				
+					</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

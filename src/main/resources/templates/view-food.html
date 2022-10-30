@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-admin}">
+<head>
+<title>Trang Chi Tiết Sản Phẩm</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container pb-5">
+			<div class="row" style="display:flex ;justify-content: center;">
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="p-5 text-center">Chi Tiết Sản Phẩm</h2>
+					<div style="display:flex ;justify-content: center;">
+						<div class="card" style="width: 555px;">
+							<img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}" width="555px" class="thumbnail">
+							<div class="card-body">
+								<a th:each="i : ${food.images}" th:href="@{/upload/{path}(path=${i.imageName})}" class="thumbnail" style="text-decoration: none">
+                        			<img th:attr="src=@{/upload/{path}(path=${i.imageName})}"  width="100px" height="100px"/>
+                       			</a>
+								<div class="card-title text-center">
+									<div class="text-secondary fs-5" th:text="${food.category.name}"></div>
+									<div class="fw-bolder fs-1" th:text="${food.name}"></div>
+								</div>
+								
+								<div class="fs-5">
+									<div class="row">
+										<div class="col-md-6 text-end">Giá:</div>
+										<div class="col-md-6" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-6 text-end">Tồn kho:</div>
+										<div class="col-md-6" th:text="${food.quantity}"></div>
+									</div>
+									<div th:if="${food.priceSpecial} > 0">
+										<div class="row pt-3">
+											<div class="col-md-6 text-end">Giá khuyến mãi:</div>
+											<div class="col-md-6" th:text="${#numbers.formatInteger(food.priceSpecial,1,'POINT')}+' đ'"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 text-end">Từ ngày:</div>
+											<div class="col-md-6" th:text="${#calendars.format(food.priceSpecialStart,'dd/MM/yyyy hh:MM:ss')}"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 text-end">Đến ngày:</div>
+											<div class="col-md-6" th:text="${#calendars.format(food.priceSpecialEnd,'dd/MM/yyyy')}"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 pt-3 text-center">Mô tả sản phẩm</div>
+										<div class="col-md-12" th:utext="${food.description}"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="display:flex ;justify-content: center;">
+						<a th:href="@{/admin/foods}" class="btn btn-outline-secondary mt-3" style="width: 100px">Quay lại</a>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

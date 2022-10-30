@@ -1,71 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{manage}">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorate="~{layout-admin}">
 <head>
-<title>Customer Page</title>
+<title>Trang Danh Sách Khách Hàng</title>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container">
+		<div class="container pb-5">
 			<div class="row">
-				<div class="col-md-12">
-					<h2 class="my-5">Customers</h2>
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="my-5 text-center">Danh Sách Khách Hàng</h2>
+					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-outline-success fw-bold mb-3" th:href="@{/admin/addCustomer}" role="button">Thêm Khách Hàng</a>
 					<table class="table table-secondary table-striped-columns">
 						<thead>
 							<tr>
 								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}">ID</a>
+									<a th:href="@{/admin/customers?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}" style="text-decoration: none">Mã</a>
 								</th>
 								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}">First Name</a>
+									<a th:href="@{/admin/customers?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}" style="text-decoration: none">Họ</a>
 								</th>
 								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}">Last Name</a>
+									<a th:href="@{/admin/customers?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}" style="text-decoration: none">Tên</a>
 								</th>
 								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='street',sortDir=${reverseSortDir})}">Street</a>
+									<a th:href="@{/admin/customers?(page=${currentPage},sortField='email',sortDir=${reverseSortDir})}" style="text-decoration: none">Email</a>
 								</th>
 								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='district',sortDir=${reverseSortDir})}">District</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='city',sortDir=${reverseSortDir})}">City</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='email',sortDir=${reverseSortDir})}">Email</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/customers?(page=${currentPage},sortField='phoneNumber',sortDir=${reverseSortDir})}">Phone Number</a>
+									<a th:href="@{/admin/customers?(page=${currentPage},sortField='phoneNumber',sortDir=${reverseSortDir})}" style="text-decoration: none">Số Điện Thoại</a>
 								</th>								
-								<th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Action</th>
+								<th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Lựa Chọn</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="customer : ${customers}">
-								<td th:text="${customer.id}"></td>
-								<td th:text="${customer.firstName}"></td>
+								<td><a th:href="@{/admin/viewCustomer?(customerId=${customer.id})}" style="text-decoration: none" th:text="${customer.id}"></a></td>
 								<td th:text="${customer.lastName}"></td>
-								<td th:text="${customer.street}"></td>
-								<td th:text="${customer.district}"></td>
-								<td th:text="${customer.city}"></td>
+								<td th:text="${customer.firstName}"></td>								
 								<td th:text="${customer.email}"></td>
 								<td th:text="${customer.phoneNumber}"></td>								
 								<td sec:authorize="hasAnyRole('ADMIN','MANAGER')">
-								<a class="btn btn-primary" th:href="@{/admin/editcustomer?(customerId=${customer.id})}" role="button">Edit</a>
-								<a class="btn btn-primary" th:href="@{/admin/deletecustomer?(customerId=${customer.id})}" role="button">Delete</a>
+								<a class="btn btn-outline-primary" th:href="@{/admin/editCustomer?(customerId=${customer.id})}" role="button">Sửa</a>
+								<button type="button" class="btn btn-outline-danger" 
+										data-bs-toggle="modal" 
+										th:attr="data-bs-target=${'#deleteConfirmModal'+customer.id}">Xóa
+								</button>
+								
+									<div class="modal fade" th:attr="id=${'deleteConfirmModal'+customer.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									  <div class="modal-dialog">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title" id="exampleModalLabel">Xóa Khách Hàng</h5>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									      </div>
+									      <div class="modal-body">
+									        Xác nhận xóa khách hàng?
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+									        <a class="btn btn-primary" th:href="@{/admin/deleteCustomer?(customerId=${customer.id})}" role="button">Xóa</a>
+									      </div>
+									    </div>
+									  </div>
+									</div>
 								</td>								
 							</tr>
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation example">
+					<nav aria-label="Page navigation example" style="display:flex ;justify-content: center;">
 					  <ul class="pagination">
 					  
 					    <li th:if="${currentPage > 1}" class="page-item">
 					    	<a class="page-link" th:href="@{/admin/customers?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
 					    </li>
 					    <li th:if="${currentPage <= 1}" class="page-item disabled">
-					    	<a class="page-link" href="#">Previous</a>
+					    	<a class="page-link" href="#">Trang trước</a>
 					    </li>					    
 					   					    
 					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
@@ -76,11 +88,10 @@
 					    	<a class="page-link" th:href="@{/admin/customers?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
 					    </li>
 					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
-					    	<a class="page-link" href="#">Next</a>
+					    	<a class="page-link" href="#">Trang sau</a>
 					    </li>
 					  </ul>
-					</nav>
-					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-primary" th:href="@{/admin/addcustomer}" role="button">New Customer</a>
+					</nav>					
 				</div>
 			</div>
 		</div>

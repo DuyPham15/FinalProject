@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-
+fit=no">
+
+<title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="/css/layout.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<link rel="stylesheet" th:href="@{/css/viewbox/viewbox.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+
+</head>
+<body>
+	<!-- Main Navigation -->
+	<header class="taskbar-color shadow bg-body">
+		<div class="container">
+			<div class="row ">
+				<div class="col-md-2">
+					<a class="navbar-brand" th:href="@{/home}"><img
+						th:attr="src=@{/images/logo-shop.png}" width="80px" height="80px" /> </a>
+				</div>
+				<div class="col-md-8 ps-0 pe-0 pt-3">
+					<nav class="navbar navbar-expand-lg">
+						<div class="container-fluid">
+							<button class="navbar-toggler bg-light" type="button"
+								data-bs-toggle="collapse" data-bs-target="#navbarNav"
+								aria-controls="navbarNav" aria-expanded="false"
+								aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="navbarNav">
+								<ul class="navbar-nav navbar-dark">
+									<li class="nav-item pe-3">
+										<a th:class="${session.menuSelected == 'home'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'"
+										th:href="@{/home}">TRANG CHỦ</a>
+									</li>									
+									<li class="pe-3">
+										<div class="dropdown">
+										  <button class="btn dropdown-toggle fw-bolder btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">DANH MỤC SẢN PHẨM</button>
+										  <ul class="dropdown-menu fs-5">
+										    <li th:each="category : ${categories}"><a th:text="${category.name}" 
+										    th:class="${session.menuSelected == 'category'}? 'btn btn-outline-secondary border-0 fw-semibold text-start mb-3' : 'btn btn-outline-secondary border-0 fw-semibold text-start mb-3'" 
+										    style="width: 100%;" th:href="@{/shop/viewCategory?(categoryId=${category.id})}"></a></li>
+										    <li><a th:href="@{/shop/products}"	style="display:flex; justify-content: center; text-decoration: none">
+										    <button th:class="${session.menuSelected == 'products'}? 'btn btn-outline-primary fw-bold' : 'btn btn-outline-primary fw-bold'">XEM TẤT CẢ</button></a></li>
+										  </ul>
+										</div>
+									</li>
+									<li class="nav-item pe-3">
+										<a th:class="${session.menuSelected == 'about'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'"
+										aria-current="page" th:href="@{/about}">GIỚI THIỆU</a>
+									</li>									
+									<li class="nav-item">
+										<form th:action="@{/shop/searchProduct}" method="post">
+											<div class="input-group mb-3">
+											  <input type="search" class="form-control text-secondary" placeholder="Tìm kiếm..." th:value="${keyword}" name="keyword"/>
+											  <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+											</div>
+										</form>
+									</li>																								
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<div class = "col-md-2 ps-0 pe-0 pt-3">
+					<a th:class="${session.menuSelected == 'cart'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'" 
+					th:href="@{/shop/shoppingCart}" role="button">GIỎ HÀNG <i class="bi bi-cart-dash-fill" style="font-size:20px;"></i></a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Content Section -->
+	<section layout:fragment="content" style="background-color: #F0F0F0">		
+	</section>
+	<!-- Footer -->
+	<footer class="container pb-5 pt-3 ps-0  border-top">
+		<section>
+			<div class="container">
+				<div class="row pb-5">
+					<div class="col-md-3">
+						<h5 class="fw-bolder">Về chúng tôi</h5>
+						<p>Website chính thức và duy nhất của MixiFood. Hiện tại chúng mình chỉ nhận đơn hàng trên website chứ không nhận bất kỳ
+						nơi nào khác nhé!</p>
+					</div>
+					
+					<div class="col-md-3">
+						<h5 class="fw-bolder ps-2">Danh mục sản phẩm</h5>
+							<ul class="fs-6">
+								<li th:each="category : ${categories}"><a th:text="${category.name}" th:href="@{/shop/viewCategory?(categoryId=${category.id})}" style="text-decoration: none; color: #28bcbe;">Thực phẩm khô</a></li>															
+							</ul>
+					</div>
+					
+					<div class="col-md-3">
+						<h5 class="fw-bolder ps-2">Thông tin</h5>
+							<ul class="fs-6">
+								<li><a th:href="@{/about}" style="text-decoration: none; color: #28bcbe;">Giới thiệu</a></li>
+								<li><a th:href="@{/privacy}" style="text-decoration: none; color: #28bcbe;">Chính sách bảo mật</a></li>
+								<li><a th:href="@{/terms}" style="text-decoration: none; color: #28bcbe;">Điều khoản</a></li>								
+							</ul>
+					</div>
+					
+					<div class="col-md-3">
+						<h5 class="fw-bolder">Hỗ trợ</h5>
+						<p>Mọi thắc mắc và góp ý cần hỗ trợ xin vui lòng liên hệ Fanpage và Instagram</p>
+						<a th:href="@{https://www.facebook.com/mixifood}"><i class="bi bi-facebook" style="font-size:20px" th:href="@{/}"></i></a>
+						<a th:href="@{https://www.instagram.com/mixi_food}"><i class="bi bi-instagram" style="font-size:20px"></i></a>
+					</div>
+				</div>
+				<div class="row pt-3">
+					<div class="col-md-12">
+						<p class="text-muted">Copyright 2022 &copy; MixiFood</p>
+					</div>
+				</div>
+			</div>
+		</section>	
+	</footer>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="" th:attr="src=@{/js/viewbox/jquery.viewbox.min.js}"></script>
+	<script>
+		$(function(){
+			$('.thumbnail').viewbox();
+		});
+	</script>
+</body>
+</html>

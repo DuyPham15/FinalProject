@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-shop}">
+<head>
+
+<title>Welcome to Our Site</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<section class="pt-5 text-center"> 
+			<img th:attr="src=@{/images/banner.jpg}" width=100% height="500px">
+	    </section>
+	    
+	    <section class="pb-5" style="background-color: #F0F0F0">
+		    <div class="container text-center">
+		    	<div class="row">
+		    		<div class="col-md-12 text-center">
+		    			 <h1 class="pt-5 pb-5 text-center fw-bold">BÁN CHẠY NHẤT</h1>
+				         <a type="button" class="btn btn-outline-primary text-center fw-bolder border border-primary border-3" th:href="@{/shop/products}">XEM TẤT CẢ </a>			          
+		    		</div>
+		    	</div>
+		    	
+	    		<div class="row">	
+		    		<div th:each="food : ${foods}" class="col-md-3 px-3 pt-5">
+		    			<div class="image-box">
+		    				<a th:href="@{/shop/viewProduct?(foodId=${food.id})}">
+			    				<img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}" width="250px" height="300px"></a>
+			    					<div class="list-group-item" th:text="${food.category.name}"></div>
+									<div class="list-group-item text-uppercase"><a type="button" th:href="@{/shop/viewProduct?(foodId=${food.id})}" th:text="${food.name}" style="text-decoration: none; color: 007784;">TÊN SẢN PHẨM</a></div>
+									<div class="list-group-item" th:if="${food.quantity}>0">
+										<div th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></div>
+									</div>
+									<div class="list-group-item" th:if="${food.quantity}<1">
+										<div>Hết hàng</div>
+									</div>
+    			  		</div>	    		
+		    		</div>
+	    		</div> 
+		    </div>		    		
+   	    </section>	
+	</div>
+</body>
+</html>

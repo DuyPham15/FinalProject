@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-admin}">
+<head>
+<title>Trang Tạo Mới Thuộc Tính Sản Phẩm</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container pb-5">
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="text-center mb-3 pt-5">Tạo Thuộc Tính Sản Phẩm</h2>
+				
+					<div class="row" style="display:flex ;justify-content: center;">
+						<div class="col-md-6">
+							<form th:action="@{/admin/addAttribute}" th:object="${attribute}" method="post">
+								<div class="mb-3">
+									<label for="name" class="col-form-label">Tên Thuộc Tính</label>
+									<input type="text" th:field="*{name}" class="form-control"
+										id="name" placeholder="Tên thuộc tính" /> 
+									<span th:errors="*{name}" class="text-danger"></span>
+								</div>
+		
+								<div class="mb-3">
+									<label for="value" class="col-form-label">Giá Trị</label> <input
+										type="text" th:field="*{value}" class="form-control"
+										id="value" placeholder="Giá trị"> 
+									<span th:errors="*{value}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="displayName" class="col-form-label">Hiển Thị</label> <input
+										th:field="*{displayName}" class="form-control" id="displayName"
+										placeholder="Hiển thị"></input>
+									<span th:errors="*{displayName}" class="text-danger"></span>
+								</div>
+		
+								<a th:href="@{/admin/attributes}" class="mt-3 btn btn-outline-secondary" style="width: 100px">Quay lại</a>
+								<input type="submit" value="Lưu" class="mt-3 btn btn-outline-success" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

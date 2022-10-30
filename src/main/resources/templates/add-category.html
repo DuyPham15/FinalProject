@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{manage}">
+	layout:decorate="~{layout-admin}">
 <head>
-<title>Add Category</title>
+<title>Trang Tạo Mới Danh Mục Sản Phẩm</title>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container pt-5">
+		<div class="container pb-5">
 			<div class="row">
-				<div class="col-md-6">
-				<h2 class="text-center mb-3">Add Category</h2>
-					<form th:action="@{/admin/addcategory}" th:object="${category}" method="post">
-						<div class="mb-3">
-							<label for="name" class="col-form-label">Name</label>
-							<input type="text" th:field="*{name}" class="form-control"
-								id="name" placeholder="Category Name" /> 
-							<span th:errors="*{name}" class="text-danger"></span>
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="text-center mb-3 pt-5">Tạo Danh Mục Sản Phẩm</h2>
+					
+					<div class="row" style="display:flex ;justify-content: center;">
+						<div class="col-md-6">
+							<form th:action="@{/admin/addCategory}" th:object="${category}" method="post">
+								<div class="mb-3"> 
+									<label for="name" class="col-form-label">Tên Danh Mục</label>
+									<input type="text" th:field="*{name}" class="form-control"
+										id="name" placeholder="Tên danh mục" /> 
+									<span th:errors="*{name}" class="text-danger"></span>
+								</div>
+		
+								<div class="mb-3">
+									<label for="title" class="col-form-label">Tựa Đề</label> <input
+										type="text" th:field="*{title}" class="form-control"
+										id="title" placeholder="Tựa đề"> 
+									<span th:errors="*{title}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="description" class="col-form-label">Mô Tả</label> <textarea
+										rows="5" th:field="*{description}" class="form-control" id="description"
+										placeholder="Mô tả"></textarea>
+									<span th:errors="*{description}" class="text-danger"></span>
+								</div>
+		
+								<a th:href="@{/admin/categories}" class="mt-3 btn btn-outline-secondary" style="width: 100px">Quay lại</a>
+								<input type="submit" value="Lưu" class="mt-3 btn btn-outline-success" />
+							</form>
 						</div>
-
-						<div class="mb-3">
-							<label for="title" class="col-form-label">Title</label> <input
-								type="text" th:field="*{title}" class="form-control"
-								id="title" placeholder="Title"> 
-							<span th:errors="*{title}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="description" class="col-form-label">Description</label> <input
-								type="text" th:field="*{description}" class="form-control" id="description"
-								placeholder="Description"> 
-							<span th:errors="*{description}" class="text-danger"></span>
-						</div>
-
-						
-						<input type="submit" value="Save" class="mt-3" />
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

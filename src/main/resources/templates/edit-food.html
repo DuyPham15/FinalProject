@@ -1,96 +1,118 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{manage}">
+	layout:decorate="~{layout-admin}">
 <head>
-<title>Edit Food</title>
+<title>Trang Chỉnh Sửa Sản Phẩm</title>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container">
+		<div class="container pb-5">
 			<div class="row">
-				<div class="col-md-6">
-				<h2 class="text-center mb-3">Edit Food</h2>				
-					<form enctype="multipart/form-data" th:action="@{/admin/updatefood?(foodId=${food.id})}" th:object="${food}" method="post">
-						<div class="mb-3">
-							<label for="category" class="col-form-label">Category</label>
-	                            <select th:field="*{category}" id="category" class="form-select" >
-	                                <option th:each = "category : ${categories}" th:value="${{category}}" th:text="${category.name}"></option>
-	                            </select>
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="text-center mb-3 pt-5">Chỉnh Sửa Sản Phẩm</h2>	
+					
+					<div class="row" style="display:flex ;justify-content: center;">
+						<div class="col-md-6">		
+							<form enctype="multipart/form-data" th:action="@{/admin/updateFood?(foodId=${food.id})}" th:object="${food}" method="post">
+								<div class="mb-3">
+									<label for="category" class="col-form-label">Danh Mục Sản Phâm</label>
+			                            <select th:field="*{category}" id="category" class="form-select" >
+			                                <option th:each = "category : ${categories}" th:value="${{category}}" th:text="${category.name}"></option>
+			                            </select>
+								</div>	
+								
+								<div class="form-group col-md-6 pb-3"> 
+		                            Ảnh Bìa: 
+		                            <a th:href="@{/upload/{path}(path=${food.thumbnailImageName})}">
+		                                <img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}"  width="100px" height="100px"/>
+		                            </a>
+		                            	                            
+		                            <input class="mt-3" th:field="*{thumbnailImageFile}" type="file"/>
+		                        </div>
+								
+								<a th:each="i : ${food.images}">
+		                        	<img th:attr="src=@{/upload/{path}(path=${i.imageName})}"  width="100px" height="100px"/>
+		                        </a>
+								<div class="mb-3 mt-3">
+									<ul >
+										<li>Hình ảnh 1: <input th:field="*{foodImageFiles}" type="file"/></li>
+										<li>Hình ảnh 2: <input th:field="*{foodImageFiles}" type="file"/></li>
+										<li>Hình ảnh 3: <input th:field="*{foodImageFiles}" type="file"/></li>
+										<li>Hình ảnh 4: <input th:field="*{foodImageFiles}" type="file"/></li>
+										<li>Hình ảnh 5: <input th:field="*{foodImageFiles}" type="file"/></li>								
+									</ul>				
+			                    </div>
+								
+								<div class="mb-3">
+									<label for="code" class="col-form-label">Mã Sản Phẩm</label>
+									<input type="text" th:field="*{code}" class="form-control"
+										id="code" placeholder="Mã sản phẩm" /> 
+									<span th:errors="*{code}" class="text-danger"></span>
+								</div>
+		
+								<div class="mb-3">
+									<label for="name" class="col-form-label">Tên Sản Phẩm</label> <input
+										type="text" th:field="*{name}" class="form-control"
+										id="name" placeholder="Tên sản phẩm"> 
+									<span th:errors="*{name}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+		                            <label for="attribute" class="form-label">Chọn thuộc tính:</label>
+		                            <select th:field="*{attribute}" id="attribute" multiple class="form-select" >
+		                                <option th:each = "attribute : ${attributes}" th:value="${{attribute}}" th:text="${attribute.displayName}+' : '+${attribute.value}"></option>
+		                            </select>
+		                        </div>
+								
+								<div class="mb-3">
+									<label for="foodQuantity" class="col-form-label">Số Lượng</label> <input
+										type="text" th:field="*{quantity}" class="form-control" id="foodQuantity"
+										placeholder="Số lượng"> 
+									<span th:errors="*{quantity}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="price" class="col-form-label">Giá</label>
+									<input type="text" th:field="*{price}" class="form-control"
+										id="price" placeholder="Giá" /> 
+									<span th:errors="*{price}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="foodPriceSpecial" class="col-form-label">Giá Khuyến Mãi</label>
+									<input type="text" th:field="*{priceSpecial}" class="form-control"
+										id="foodPriceSpecial" placeholder="Giá khuyến mãi" /> 
+									<span th:errors="*{priceSpecial}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="foodPriceSpecialStart" class="col-form-label">Ngày Bắt Đầu</label>
+									<input type="date" th:field="*{priceSpecialStart}" class="form-control"
+										id="foodPriceSpecialStart" placeholder="Ngày bắt đầu" /> 
+									<span th:errors="*{priceSpecialStart}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="foodPriceSpecialEnd" class="col-form-label">Ngày Kết Thúc</label>
+									<input type="date" th:field="*{priceSpecialEnd}" class="form-control"
+										id="foodPriceSpecialEnd" placeholder="Ngày kết thúc" /> 
+									<span th:errors="*{priceSpecialEnd}" class="text-danger"></span>
+								</div>
+								
+								<div class="mb-3">
+									<label for="description" class="col-form-label">Mô Tả</label> <textarea
+										rows="5" th:field="*{description}" class="form-control" id="description"
+										placeholder="Mô tả"></textarea>
+									<span th:errors="*{description}" class="text-danger"></span>
+								</div>
+		
+								<a th:href="@{/admin/foods}" class="mt-3 btn btn-outline-secondary" style="width: 100px">Quay lại</a>
+								<input type="submit" value="Lưu" class="mt-3 btn btn-outline-success" />
+							</form>
 						</div>
-						
-						<div class="form-group col-md-6"> 
-                            Thumbnail Image: 
-                            <a th:href="@{/upload/{path}(path=${food.thumbnailImageName})}">
-                                <img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}"  width="100px" height="100px"/>
-                            </a>
-                            <input th:field="*{thumbnailImageFile}" type="file"/>
-                        </div>
-						
-						<a th:each="i : ${food.images}">
-                        	<img th:attr="src=@{/upload/{path}(path=${i.imageName})}"  width="100px" height="100px"/>
-                        </a>
-						<div class="mb-3">
-							<ul >
-								<li>Images 1: <input th:field="*{foodImageFiles}" type="file"/></li>
-								<li>Images 2: <input th:field="*{foodImageFiles}" type="file"/></li>
-								<li>Images 3: <input th:field="*{foodImageFiles}" type="file"/></li>
-								<li>Images 4: <input th:field="*{foodImageFiles}" type="file"/></li>
-								<li>Images 5: <input th:field="*{foodImageFiles}" type="file"/></li>								
-							</ul>				
-	                    </div>
-						
-						<div class="mb-3">
-							<label for="code" class="col-form-label">Code</label>
-							<input type="text" th:field="*{code}" class="form-control"
-								id="code" placeholder="Code" /> 
-							<span th:errors="*{code}" class="text-danger"></span>
-						</div>
-
-						<div class="mb-3">
-							<label for="description" class="col-form-label">Description</label> <input
-								type="text" th:field="*{description}" class="form-control"
-								id="description" placeholder="Description"> 
-							<span th:errors="*{description}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="foodQuantity" class="col-form-label">Quantity</label> <input
-								type="text" th:field="*{quantity}" class="form-control" id="foodQuantity"
-								placeholder="Quantity"> 
-							<span th:errors="*{quantity}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="price" class="col-form-label">Price</label>
-							<input type="text" th:field="*{price}" class="form-control"
-								id="price" placeholder="Price" /> 
-							<span th:errors="*{price}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="foodPriceSpecial" class="col-form-label">Price Special</label>
-							<input type="text" th:field="*{priceSpecial}" class="form-control"
-								id="foodPriceSpecial" placeholder="Price Special" /> 
-							<span th:errors="*{priceSpecial}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="foodPriceSpecialStart" class="col-form-label">Special Start</label>
-							<input type="date" th:field="*{priceSpecialStart}" class="form-control"
-								id="foodPriceSpecialStart" placeholder="Special Start" /> 
-							<span th:errors="*{priceSpecialStart}" class="text-danger"></span>
-						</div>
-						
-						<div class="mb-3">
-							<label for="foodPriceSpecialEnd" class="col-form-label">Special End</label>
-							<input type="date" th:field="*{priceSpecialEnd}" class="form-control"
-								id="foodPriceSpecialEnd" placeholder="Special End" /> 
-							<span th:errors="*{priceSpecialEnd}" class="text-danger"></span>
-						</div>
-
-						<input type="submit" value="Save" class="mt-3" />
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

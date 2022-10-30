@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-shop}">
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<link rel="stylesheet" th:href="@{/css/viewbox/viewbox.css}">
+
+<title>Giới thiệu - MixiFood</title>
+</head>
+<body>
+	<div class="pt-5 pb-5" layout:fragment="content">
+		<div class="section pt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+	                	<img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}" width="516px" class="thumbnail">
+						<div class="row pt-1">
+							<div class="col">
+							<a th:each="i : ${food.images}" th:href="@{/upload/{path}(path=${i.imageName})}" class="thumbnail" style="text-decoration: none">
+                        		<img th:attr="src=@{/upload/{path}(path=${i.imageName})}"  width="100px" height="100px"/>
+                       		</a>
+                       		</div>
+						</div>	
+					</div>
+					
+					
+					<div class="col-md-5 pt-5">
+						<form th:action="@{/shop/buyProduct?(foodId=${food.id})}" method="post">
+							<h1 class="fw-bolder" th:text="${food.name}+' - '+${food.foodCode}"></h1>
+							<hr width=60px class="opacity-75">						
+							<h3 class="fw-bolder py-4" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></h3>						
+							<h5 class="pb-4" th:text="${food.attribute.displayName}+' : '+${food.attribute.value}"></h5>			
+							<div th:if="${food.quantity} &gt; 0">
+								<span>Số lượng: <input class="text-center" type="number" name="quantity" th:min="1" th:max="${food.quantity}" th:value="1">
+									<span class="ps-3 fw-lighter fst-italic" th:text="${food.quantity}+' sản phẩm có sẵn'"></span>
+								</span><p class="pt-3"></p>													
+								<button class="btn btn-lg rounded-pill fw-bolder addtocart-button" type="submit">THÊM VÀO GIỎ HÀNG <i class="bi bi-cart-dash-fill" style="font-size:23px"></i></button>
+							</div>
+							<div th:if="${food.quantity} &lt; 1">
+								<h2>Hết hàng</h2>
+							</div>
+							<hr class="mt-5 opacity-5">
+							<div class="fst-italic" th:text="'Mã: '+ ${food.code}"></div>
+							<div class="fs-6 fst-italic">Danh mục: <a class="fs-6" th:href="@{/shop/viewCategory?(categoryId=${food.category.id})}" th:text="${food.category.name}" style="text-decoration: none; color: #28bcbe"></a></div>
+						</form>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<h4>MÔ TẢ SẢN PHẨM</h4>
+						<div th:utext="${food.description}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-
+fit=no">
+
+<title>Quản lý MixiFood</title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="/css/sidebars.css" type="text/css">
+<link rel="stylesheet" th:href="@{/css/viewbox/viewbox.css}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" th:href="@{/css/richtext/richtext.min.css}">
+
+</head>
+<body>
+
+	<!-- Ma.in Navigation -->
+<main>
+	<div class="d-flex flex-column flex-shrink-0 p-3 text-white effects" style="width: 250px; background-color: #212529">
+    <a th:href="@{/admin/home}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <img th:attr="src=@{/images/logo-admin.png}" width="80px" height="80px" />
+      <span class="fs-4 ps-2">MixiFood</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto fs-6">
+      <li th:class="${session.menuSelected == 'home'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/home}" class="nav-link text-white ">
+        <i class="bi bi-house-door"></i>          
+          TRANG CHỦ
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'category'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/categories}" class="nav-link text-white">  
+        <i class="bi bi-folder2-open"></i>        
+          DANH MỤC
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'attribute'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/attributes}" class="nav-link text-white">
+        <i class="bi bi-list-ul"></i>
+          THUỘC TÍNH
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'food'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/foods}" class="nav-link text-white">
+        <i class="bi bi-grid"></i>
+          SẢN PHẨM
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'order'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/orders}" class="nav-link text-white">
+        <i class="bi bi-journal-text"></i>
+          ĐƠN HÀNG
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'customer'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div class="sidebar-button">
+        <a th:href="@{/admin/customers}" class="nav-link text-white">
+        <i class="bi bi-people-fill"></i>
+          KHÁCH HÀNG
+        </a></div>
+      </li>
+      <li th:class="${session.menuSelected == 'user'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div sec:authorize="hasRole('ROLE_ADMIN')" class="sidebar-button">
+        <a th:href="@{/admin/users}" class="nav-link text-white">
+        <i class="bi bi-shield-lock-fill"></i>
+          NHÂN VIÊN
+        </a></div>
+      </li>
+    </ul>
+    <hr>
+    <div sec:authorize="isAuthenticated()" class="nav-item">
+    <div class="dropdown">
+		<a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle text-uppercase" type="button"
+			data-bs-toggle="dropdown" aria-expanded="false">
+            <img th:attr="src=@{/images/avatar.png}" width="32" height="32" />
+			<strong class="ps-2" sec:authentication="name"></strong>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+			<li><a class="dropdown-item" aria-current="page"
+				th:href="@{/admin/profile}">SỬA THÔNG TIN</a></li>
+			<li><a class="dropdown-item" aria-current="page"
+				th:href="@{/logout}">ĐĂNG XUẤT</a></li>
+		</ul>
+	</div>
+	</div>
+  </div>
+</main>
+	<!-- Content Section -->
+	<section layout:fragment="content" class="" style="background-color: F0F0F0">		
+	</section>
+	<!-- Footer -->
+	<footer class="container">
+		<div class="row">
+				<div class="col-md-12">
+					<p class="text-muted position-fixed bottom-0 end-0 pe-5">Copyright 2022 &copy; MixiFood</p>
+				</div>
+			</div>
+	</footer>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="" th:attr="src=@{/js/viewbox/jquery.viewbox.min.js}"></script>
+	<script>
+		$(document).ready(function(){
+			$("#description").richText();
+		})
+		
+		$(function(){
+			$('.thumbnail').viewbox();
+		});
+		
+			
+		
+	</script>
+	<script src="" th:attr="src=@{/js/richtext/jquery.richtext.min.js}"></script>
+	<script src="" th:attr="src=@{/js/richtext/jquery.richtext.js}"></script>
+</body>
+</html>

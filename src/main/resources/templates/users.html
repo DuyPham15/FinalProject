@@ -1,55 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{manage}">
+	layout:decorate="~{layout-admin}">
 <head>
-<title>User Page</title>
+<title>Trang Danh Sách User</title>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container">
+		<div class="container pb-5">
 			<div class="row">
-				<div class="col-md-8">
-					<h2 class="my-5">Users</h2>
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="my-5 text-center">Danh Sách User</h2>
+					<a class="btn btn-outline-success fw-bold mb-3" th:href="@{/admin/signUp}" role="button">Thêm User</a>
 					<table class="table table-secondary table-striped-columns">
 						<thead>
 							<tr>
 								<th>
-									<a th:href="@{/admin/users?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}">ID</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/users?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}">First Name</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/users?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}">Last Name</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='userName',sortDir=${reverseSortDir})}" style="text-decoration: none">Username</a>
 								</th>								
 								<th>
-									<a th:href="@{/admin/users?(page=${currentPage},sortField='userName',sortDir=${reverseSortDir})}">User Name</a>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='lastName',sortDir=${reverseSortDir})}" style="text-decoration: none">Họ</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/users?(page=${currentPage},sortField='firstName',sortDir=${reverseSortDir})}" style="text-decoration: none">Tên</a>
 								</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="user: ${users}">
-								<td><a th:href="@{/admin/viewuser?(userId=${user.id})}" th:text="${user.id}"></a></td>
-								<td th:text="${user.firstName}"></td>
-								<td th:text="${user.lastName}"></td>								
-								<td th:text="${user.userName}"></td>
+								<td><a th:href="@{/admin/viewUser?(userId=${user.id})}" th:text="${user.userName}" style="text-decoration: none"></a></td>
+								<td th:text="${user.lastName}"></td>
+								<td th:text="${user.firstName}"></td>	
 								<td>
-								<a class="btn btn-primary" th:href="@{/admin/edituser?(userId=${user.id})}" role="button">Edit</a>
-								<a class="btn btn-primary" th:href="@{/admin/deleteuser?(userId=${user.id})}" role="button">Delete</a>
+								<a class="btn btn-outline-primary" th:href="@{/admin/editUser?(userId=${user.id})}" role="button">Sửa</a>
+								<button type="button" class="btn btn-outline-danger" 
+										data-bs-toggle="modal" 
+										th:attr="data-bs-target=${'#deleteConfirmModal'+user.id}">Xóa
+								</button>
+								
+									<div class="modal fade" th:attr="id=${'deleteConfirmModal'+user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									  <div class="modal-dialog">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title" id="exampleModalLabel">Xóa User</h5>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									      </div>
+									      <div class="modal-body">
+									        Xác nhận xóa User?
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+									        <a class="btn btn-primary" th:href="@{/admin/deleteUser?(userId=${user.id})}" role="button">Xóa</a>
+									      </div>
+									    </div>
+									  </div>
+									</div>
 								</td>								
 							</tr>
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation example">
+					<nav aria-label="Page navigation example" style="display:flex ;justify-content: center;">
 					  <ul class="pagination">
 					  
 					    <li th:if="${currentPage > 1}" class="page-item">
 					    	<a class="page-link" th:href="@{/admin/users?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
 					    </li>
 					    <li th:if="${currentPage <= 1}" class="page-item disabled">
-					    	<a class="page-link" href="#">Previous</a>
+					    	<a class="page-link" href="#">Trang trước</a>
 					    </li>					    
 					   					    
 					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
@@ -60,11 +79,10 @@
 					    	<a class="page-link" th:href="@{/admin/users?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
 					    </li>
 					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
-					    	<a class="page-link" href="#">Next</a>
+					    	<a class="page-link" href="#">Trang sau</a>
 					    </li>
 					  </ul>
-					</nav>
-					<a class="btn btn-primary" th:href="@{/admin/signup}" role="button">New User</a>
+					</nav>					
 				</div>
 			</div>
 		</div>

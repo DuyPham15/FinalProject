@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout-admin}">
+<head>
+<title>Trang Danh Sách Đơn Hàng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class = "col-md-10">
+					<h2 class="my-5 text-center">Danh Sách Đơn Hàng</h2>					
+					<table class="table table-secondary table-striped-columns">
+						<thead>
+							<tr>
+								<th>
+									<a th:href="@{/admin/orders?(page=${currentPage},sortField='id',sortDir=${reverseSortDir})}" style="text-decoration: none">Mã</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/orders?(page=${currentPage},sortField='date',sortDir=${reverseSortDir})}" style="text-decoration: none">Ngày Tạo Đơn</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/orders?(page=${currentPage},sortField='customer.id',sortDir=${reverseSortDir})}" style="text-decoration: none">Khách Hàng</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/orders?(page=${currentPage},sortField='status',sortDir=${reverseSortDir})}" style="text-decoration: none">Trạng Thái</a>
+								</th>
+								<th>
+									<a th:href="@{/admin/orders?(page=${currentPage},sortField='totalPrice',sortDir=${reverseSortDir})}" style="text-decoration: none">Tổng Giá</a>
+								</th>																
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="order : ${orders}">
+								<td><a th:href="@{/admin/viewOrder?(orderId=${order.id})}" th:text="${order.id}" style="text-decoration: none"></a></td>
+								<td th:text="${#calendars.format(order.date,'dd/MM/yyyy hh:MM:ss')}"></td>
+								<td th:text="${order.customer.lastName}+' '+${order.customer.firstName}"></td>
+								<td>
+									<div th:switch="${order.status}">
+										<div th:case="${order.status.RECEIVED}">ĐÃ NHẬN ĐƠN HÀNG</div>
+										<div th:case="${order.status.CANCELED}">ĐÃ HỦY ĐƠN HÀNG</div>
+										<div th:case="${order.status.PACKAGED}">ĐANG ĐÓNG GÓI</div>
+										<div th:case="${order.status.DELIVERIED}">ĐÃ GIAO HÀNG</div>
+										<div th:case="${order.status.RETURNED}">ĐÃ TRẢ HÀNG</div>
+										<div th:case="${order.status.FINISHED}">ĐÃ HOÀN TẤT</div>
+									</div>
+								</td>
+								<td th:text="${#numbers.formatInteger(order.totalPrice,3,'POINT')}+' đ'"></td>																
+							</tr>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example" style="display:flex ;justify-content: center;">
+					  <ul class="pagination">
+					  
+					    <li th:if="${currentPage > 1}" class="page-item">
+					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
+					    </li>
+					    <li th:if="${currentPage <= 1}" class="page-item disabled">
+					    	<a class="page-link" href="#">Trang trước</a>
+					    </li>					    
+					   					    
+					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
+					    	<a class="page-link" th:text=${i} th:href="@{/admin/orders?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
+					    </li>
+					    
+					    <li th:if="${currentPage < totalPages}" class="page-item">
+					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
+					    </li>
+					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
+					    	<a class="page-link" href="#">Trang sau</a>
+					    </li>
+					  </ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
