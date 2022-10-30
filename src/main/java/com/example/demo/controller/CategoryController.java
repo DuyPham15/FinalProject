@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,10 @@ public class CategoryController {
 	public String showCategoryList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
-			Model model) {
-		int pageSize = 3;
+			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("menuSelected", "category");
+		int pageSize = 10;
 		Page<Category> pageCategory = categoryService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Category> categories = pageCategory.getContent();
 		
@@ -44,26 +48,26 @@ public class CategoryController {
 		return "categories";
 	}
 
-	@GetMapping("/addcategory")
+	@GetMapping("/addCategory")
 	public String showSignUpForm(Model model) {
 		model.addAttribute("category", new Category());
 		return "add-category";
 	}
 
-	@GetMapping("/editcategory")
+	@GetMapping("/editCategory")
 	public String showEditForm(@RequestParam(name = "categoryId") Long id, Model model) {
 		Category category = categoryService.findCategoryById(id);
 		model.addAttribute("category", category);
 		return "edit-category";
 	}
 	
-	@GetMapping("/deletecategory")
+	@GetMapping("/deleteCategory")
 	public String deleteCategory(@RequestParam(name = "categoryId") Long id) {
 		categoryService.deleteCategory(id);
 		return "redirect:/admin/categories";
 	}
 
-	@PostMapping("/addcategory")
+	@PostMapping("/addCategory")
 	public String addCategory(@Valid Category category, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-category";
@@ -73,7 +77,7 @@ public class CategoryController {
 		return "redirect:/admin/categories";
 	}
 
-	@PostMapping("/updatecategory")
+	@PostMapping("/updateCategory")
 	public String updateCategory(@RequestParam(name = "categoryId") Long id, @Valid Category category, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {

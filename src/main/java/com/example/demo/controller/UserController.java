@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,9 @@ public class UserController {
 	public String showUserList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
-			Model model) {
+			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("menuSelected", "user");
 		int pageSize = 5;
 		Page<User> pageUser = userService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<User> users = pageUser.getContent();
@@ -58,13 +61,15 @@ public class UserController {
 		return "users";
 	}
 
-	@GetMapping("/signup")
+	@GetMapping("/signUp")
 	public String showSignUpForm(Model model) {
+		List<Permission> permissions = permissionService.getAllPermissions();
 		model.addAttribute("user", new User());
+		model.addAttribute("allPermissions", permissions);
 		return "add-user";
 	}
 
-	@GetMapping("/edituser")
+	@GetMapping("/editUser")
 	public String showEditForm(@RequestParam(name = "userId") Long id, Model model) {
 		List<Permission> permissions = permissionService.getAllPermissions();
 		User user = userService.findUserById(id);
@@ -73,13 +78,13 @@ public class UserController {
 		return "edit-user";
 	}
 	
-	@GetMapping("/deleteuser")
+	@GetMapping("/deleteUser")
 	public String deleteUser(@RequestParam(name = "userId") Long id) {
 		userService.deleteUser(id);
 		return "redirect:/admin/users";
 	}
 	
-	@GetMapping("/viewuser")
+	@GetMapping("/viewUser")
 	public String showUserInfo(@RequestParam(name = "userId") Long id, Model model) {
 		User user = userService.findUserById(id);
 		model.addAttribute("user", user);
@@ -95,9 +100,11 @@ public class UserController {
 		return "edit-profile";
 	}
 
-	@PostMapping("/adduser")
+	@PostMapping("/addUser")
 	public String addUser(@Valid User user, BindingResult result, Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
+			List<Permission> permissions = permissionService.getAllPermissions();
+			model.addAttribute("permissions", permissions);
 			return "add-user";
 		}
 		String uploadRootPath = request.getServletContext().getRealPath("upload");
@@ -108,7 +115,7 @@ public class UserController {
 		return "redirect:/admin/users";
 	}
 
-	@PostMapping("/updateuser")
+	@PostMapping("/updateUser")
 	public String updateUser(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
 			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
@@ -125,7 +132,7 @@ public class UserController {
 		return "redirect:/admin/users";
 	}	
 	
-	@PostMapping("/updateprofile")
+	@PostMapping("/updateProfile")
 	public String updateProfile(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
 			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
@@ -137,6 +144,6 @@ public class UserController {
 		
 		userService.updateUser(user, id, uploadRootPath);
 
-		return "redirect:/admin/manage";
+		return "redirect:/admin/home";
 	}
 }

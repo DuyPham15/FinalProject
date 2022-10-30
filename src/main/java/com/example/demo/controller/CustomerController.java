@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,10 @@ public class CustomerController {
 	public String showCustomerList(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
-			Model model) {
-		int pageSize = 3;
+			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("menuSelected", "customer");
+		int pageSize = 10;
 		Page<Customer> pageCustomer = customerService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Customer> customers = pageCustomer.getContent();
 		
@@ -45,26 +49,33 @@ public class CustomerController {
 		return "customers";
 	}
 
-	@GetMapping("/addcustomer")
+	@GetMapping("/addCustomer")
 	public String showSignUpForm(Model model) {
 		model.addAttribute("customer", new Customer());
 		return "add-customer";
 	}
 
-	@GetMapping("/editcustomer")
+	@GetMapping("/editCustomer")
 	public String showEditForm(@RequestParam(name = "customerId") Long id, Model model) {
 		Customer customer = customerService.findCustomerById(id);
 		model.addAttribute("customer", customer);
 		return "edit-customer";
 	}
 	
-	@GetMapping("/deletecustomer")
+	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(name = "customerId") Long id) {
 		customerService.deleteCustomer(id);
 		return "redirect:/admin/customers";
 	}
+	
+	@GetMapping("/viewCustomer")
+	public String viewCustomer(@RequestParam(name = "customerId") Long id, Model model) {
+		Customer customer = customerService.findCustomerById(id);
+		model.addAttribute("customer", customer);
+		return "view-customer";
+	}
 
-	@PostMapping("/addcustomer")
+	@PostMapping("/addCustomer")
 	public String addCustomer(@Valid Customer customer, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-customer";
@@ -74,7 +85,7 @@ public class CustomerController {
 		return "redirect:/admin/customers";
 	}
 
-	@PostMapping("/updatecustomer")
+	@PostMapping("/updateCustomer")
 	public String updateCustomer(@RequestParam(name = "customerId") Long id, @Valid Customer customer, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
@@ -84,4 +95,6 @@ public class CustomerController {
 		customerService.updateCustomer(customer, id);
 		return "redirect:/admin/customers";
 	}
+	
+	
 }
