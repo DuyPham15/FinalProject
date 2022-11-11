@@ -172,63 +172,39 @@ public class OrderService {
 	
 	public OrderSummary getOrderSummary() {
 		List<Order> orders = this.orderRepository.findAll();
-		long orderReceivedCount = getOrderReceivedCount(orders);
-		OrderSummary orderSummary = new OrderSummary();
-		orderSummary.setOrderReceivedCount(orderReceivedCount);
+		long countReceivedOrder=0;
+		long countDeliveriedOrder=0;
+		long countCanceledOrder=0;
+		long countFinishedOrder=0;
+		for (Order order : orders) {
+			switch (order.getStatus()) {
+			case RECEIVED: {
+				countReceivedOrder++;
+				break;
+			}
+			case DELIVERIED:{
+				countDeliveriedOrder++;
+				break;
+			}
+			case CANCELED: {
+				countCanceledOrder++;
+				break;
+			}
+			case FINISHED: {
+				countFinishedOrder++;
+				break;
+			}
+			}
+		}
 		
+		OrderSummary orderSummary = new OrderSummary();
+		orderSummary.setOrderReceivedCount(countReceivedOrder);
+		orderSummary.setOrderDeliveriedCount(countDeliveriedOrder);
+		orderSummary.setOrderCanceledCount(countCanceledOrder);
+		orderSummary.setOrderFinishedCount(countFinishedOrder);
 		return orderSummary;
 	}
 	
-	public Long getOrderReceivedCount(List<Order> orders) {
-		long count=0;		
-		for (Order order : orders) {
-			if (order.getStatus().equals("RECEIVED") ) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public long getOrderDeliveriedCount() {
-		long count=0;
-		List<Order> orders = this.orderRepository.findAll();
-		for (Order order : orders) {
-			if (order.getStatus().equals(3)) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public long getOrderCanceledCount() {
-		long count=0;
-		List<Order> orders = this.orderRepository.findAll();
-		for (Order order : orders) {
-			if (order.getStatus().equals(4)) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public long getOrderFinishedCount() {
-		long count=0;
-		List<Order> orders = this.orderRepository.findAll();
-		for (Order order : orders) {
-			if (order.getStatus().equals(6)) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-//	public OrderSummary getSummary() {
-//		OrderSummary orderSummary =  new OrderSummary();
-//		long orderReceivedCount = orderSummary.getOrderReceivedCount();
-//		long orderDeliveriedCount = orderSummary.getOrderDeliveriedCount();
-//		long orderCanceledCount = orderSummary.getOrderCanceledCount();
-//		long orderFinishedCount = orderSummary.getOrderFinishedCount();
-//		
-//	}
+
 	
 }

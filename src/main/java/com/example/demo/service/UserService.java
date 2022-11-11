@@ -30,28 +30,24 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	private static final String DEFAULT_INITIAL_PASSWORD = "123456";
+	private static final String DEFAULT_INITIAL_PASSWORD = "1234";
 
 	public void createDefaultAdmin() throws Exception {
 		// TODO create all groups and permissions
 		String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
 		// create permission
-		Permission adminPermission = new Permission();
-		Permission managerPermission = new Permission();
-		Permission employeePermission = new Permission();
-		adminPermission.setRole("ADMIN");
-		managerPermission.setRole("MANAGER");
-		employeePermission.setRole("EMPLOYEE");
+		Permission adminPermission = new Permission();		
+		adminPermission.setRole("ADMIN");		
 		List<Permission> permissions = new ArrayList<>();
 		permissions.add(adminPermission);
-		permissions.add(managerPermission);
-		permissions.add(employeePermission);
+		
 		
 		//create new user
 		User user = new User();
 		user.setUserName("admin");
 		user.setPassword(password);
-		user.setEmail("admin@greenacedamy.com");
+		user.setEmail("admin@greenacademy.com");
+		user.setPhoneNumber("0");
 		user.setFirstName("Administrator");
 		user.setLastName("User");		
 		user.setIsActive(true);
