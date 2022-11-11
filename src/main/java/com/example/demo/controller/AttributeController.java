@@ -34,7 +34,7 @@ public class AttributeController {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "attribute");
-		int pageSize = 10;
+		int pageSize = 8;
 		Page<Attribute> pageAttribute = attributeService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Attribute> attributes = pageAttribute.getContent();
 		

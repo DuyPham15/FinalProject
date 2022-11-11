@@ -63,18 +63,18 @@ public class UserController {
 
 	@GetMapping("/signUp")
 	public String showSignUpForm(Model model) {
-		List<Permission> permissions = permissionService.getAllPermissions();
+		List<Permission> permissions = permissionService.getPermissions();
 		model.addAttribute("user", new User());
-		model.addAttribute("allPermissions", permissions);
+		model.addAttribute("permissions", permissions);
 		return "add-user";
 	}
 
 	@GetMapping("/editUser")
 	public String showEditForm(@RequestParam(name = "userId") Long id, Model model) {
-		List<Permission> permissions = permissionService.getAllPermissions();
+		List<Permission> permissions = permissionService.getPermissions();
 		User user = userService.findUserById(id);
 		model.addAttribute("user", user);
-		model.addAttribute("allPermissions", permissions);
+		model.addAttribute("permissions", permissions);
 		return "edit-user";
 	}
 	
@@ -103,13 +103,13 @@ public class UserController {
 	@PostMapping("/addUser")
 	public String addUser(@Valid User user, BindingResult result, Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
-			List<Permission> permissions = permissionService.getAllPermissions();
+			List<Permission> permissions = permissionService.getPermissions();
 			model.addAttribute("permissions", permissions);
 			return "add-user";
 		}
 		String uploadRootPath = request.getServletContext().getRealPath("upload");
-		System.out.println("uploadRootPath=" + uploadRootPath);		
-				
+		System.out.println("uploadRootPath=" + uploadRootPath);			
+		
 		userService.saveUser(user, uploadRootPath);
 
 		return "redirect:/admin/users";
@@ -119,7 +119,7 @@ public class UserController {
 	public String updateUser(@RequestParam(name = "userId") Long id, @Valid User user, BindingResult result,
 			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
-			List<Permission> permissions = permissionService.getAllPermissions();
+			List<Permission> permissions = permissionService.getPermissions();
 			model.addAttribute("permissions", permissions);
 			user.setId(id);
 			return "edit-user";

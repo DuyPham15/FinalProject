@@ -145,6 +145,27 @@ public class IndexController {
 	public String showFoodByKeyword(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
 			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
+			Model model, @RequestParam(name = "keyword") String keyword,
+			HttpServletRequest request)			 {
+		HttpSession session = request.getSession();
+		session.setAttribute("keywordSession", keyword);
+		int pageSize=12;		
+		Page<Food> pageFood = foodService.getFoodByKeyword(pageNo, pageSize, sortField, sortDir, keyword);
+		List<Food> foods = pageFood.getContent();
+		List<Category> categories = categoryService.getCategories();
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("totalPages", pageFood.getTotalPages());
+		model.addAttribute("totalItems", pageFood.getTotalElements());
+		model.addAttribute("foods", foods);
+		model.addAttribute("categories", categories);
+		return "search-product";
+	}
+	
+	@GetMapping("/shop/searchProduct")
+	public String getFoodByKeyword(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,
+			@RequestParam(name="sortField", required=false, defaultValue = "id") String sortField,
+			@RequestParam(name="sortDir", required=false, defaultValue="asc" ) String sortDir,
 			Model model, @RequestParam(name = "keyword") String keyword)			 {
 		int pageSize=12;		
 		Page<Food> pageFood = foodService.getFoodByKeyword(pageNo, pageSize, sortField, sortDir, keyword);

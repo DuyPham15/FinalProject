@@ -31,13 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/","/home","/users", "/products", "/viewproduct", "/searchproduct", "/viewcategory", "/buyProduct", "/shop/**",
-					"/terms", "/privacy", "/about", "/css/**", "/js/**", "/images/**","/api/**").permitAll()		
+					"/terms", "/privacy", "/about", "/css/**", "/js/**","/upload/**", "/images/**","/api/**").permitAll()		
 			.antMatchers("/admin/**").hasRole("EMPLOYEE")
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
-			.loginPage("/login")
-			.defaultSuccessUrl("/admin/home", true)
+			.loginPage("/login").permitAll()			
+			.defaultSuccessUrl("/admin/home", true)	
 			.failureUrl("/login?error")
 			.and()
 			.logout().permitAll().logoutSuccessUrl("/login")

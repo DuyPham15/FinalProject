@@ -40,7 +40,7 @@ public class OrderController {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "order");
-		int pageSize = 10;
+		int pageSize = 8;
 		Page<Order> pageOrder = orderService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Order> orders = pageOrder.getContent();
 		

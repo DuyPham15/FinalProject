@@ -33,7 +33,7 @@ public class CategoryController {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "category");
-		int pageSize = 10;
+		int pageSize = 8;
 		Page<Category> pageCategory = categoryService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Category> categories = pageCategory.getContent();
 		

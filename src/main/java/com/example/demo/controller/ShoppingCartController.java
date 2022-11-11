@@ -55,11 +55,11 @@ public class ShoppingCartController {
 
 	@GetMapping("/shoppingCart")
 	public String shoppingCartHandler(HttpServletRequest request, Model model) {
+		CartInfo myCart = Utils.getCartInSession(request);
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "cart");
+		session.setAttribute("itemCount", myCart.getQuantityTotal());
 		List<Category> categories = categoryService.getCategories();
-		CartInfo myCart = Utils.getCartInSession(request);
-		
 		model.addAttribute("cartForm", myCart);
 		model.addAttribute("categories", categories);
 		return "shop/cart/shoppingCart";

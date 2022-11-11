@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Food;
 import com.example.demo.entities.Attribute;
-import com.example.demo.entities.User;
 import com.example.demo.service.AttributeService;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.FoodService;
@@ -44,7 +43,7 @@ public class FoodController {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "food");
-		int pageSize = 12;
+		int pageSize = 8;
 		Page<Food> pageFood = foodService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Food> foods = pageFood.getContent();
 		

@@ -34,7 +34,7 @@ public class CustomerController {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("menuSelected", "customer");
-		int pageSize = 10;
+		int pageSize = 8;
 		Page<Customer> pageCustomer = customerService.findAll(pageNo, pageSize, sortField, sortDir);
 		List<Customer> customers = pageCustomer.getContent();
 		
