@@ -20,11 +20,11 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotBlank(message = "Name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Tên Danh Mục")
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@NotBlank(message = "Tittle is mandatory")
+	@NotBlank(message = "Vui lòng nhập Tựa Đề")
 	@Column(name = "title", nullable = false)
 	private String title;
 	

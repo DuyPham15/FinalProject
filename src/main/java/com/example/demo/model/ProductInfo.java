@@ -17,7 +17,11 @@ public class ProductInfo {
 	public ProductInfo(Food food) {
 		this.productId = food.getId();
 		this.productName = food.getName();
-		this.productPrice = food.getPrice();
+		if(food.getPriceSpecial()>0) {
+			this.productPrice = food.getPriceSpecial();
+		} else {
+			this.productPrice = food.getPrice();
+		}
 		this.productQuantity = food.getQuantity();
 		this.productImage = food.getThumbnailImageName();
 	}

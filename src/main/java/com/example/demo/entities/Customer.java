@@ -22,27 +22,27 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotBlank(message = "First name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Tên")
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
-	@NotBlank(message = "Last name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Họ")
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
-	@NotBlank(message = "Address is mandatory")
+	@NotBlank(message = "Vui lòng nhập Địa Chỉ")
 	@Column(name = "address", nullable = false)
 	private String address;
 	
-	@NotBlank(message = "Ward is mandatory")
+	@NotBlank(message = "Vui lòng nhập Phường, Xã")
 	@Column(name = "ward", nullable = false)
 	private String ward;
 	
-	@NotBlank(message = "District is mandatory")
+	@NotBlank(message = "Vui lòng nhập Quận, Huyện")
 	@Column(name = "district", nullable = false)
 	private String district;
 	
-	@NotBlank(message = "City is mandatory")
+	@NotBlank(message = "Vui lòng nhập Thành Phố")
 	@Column(name = "city", nullable = false)
 	private String city;
 	
@@ -50,6 +50,7 @@ public class Customer {
 	@Column(name = "email")
 	private String email;
 	
+	@NotBlank(message = "Vui lòng nhập Số Điện Thoại")
 	@Column(name = "PHONE_NUMBER", length = 20)
 	private String phoneNumber;
 	

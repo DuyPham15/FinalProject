@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,11 +7,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,21 +30,22 @@ public class Food {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@NotBlank(message = "Code is mandatory")
+	@NotBlank(message = "Vui lòng nhập Mã Sản Phẩm")
 	@Column(name = "code", nullable = false)
 	private String foodCode;
 
+	@NotBlank(message = "Vui lòng nhập Tên Sản Phẩm")
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description", length = 4999)
+	@Column(name = "description", length = 6000)
 	private String description;
 
-	@NotNull(message = "Quantity is mandatory")
+	@NotNull(message = "Vui lòng nhập Số Lượng")
 	@Column(name = "quantity", nullable = false)
 	private long quantity;
 
-	@NotNull(message = "Price is mandatory")
+	@NotNull(message = "Vui lòng nhập Giá")
 	@Column(name = "price", nullable = false)
 	private long price;
 

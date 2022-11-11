@@ -23,11 +23,11 @@ public class Attribute {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotBlank(message = "Name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Tên Thuộc Tính")
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@NotBlank(message = "Value is mandatory")
+	@NotBlank(message = "Vui lòng nhập Giá Trị")
 	@Column(name = "value", nullable = false)
 	private String value;
 	

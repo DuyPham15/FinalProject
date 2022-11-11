@@ -28,18 +28,18 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotBlank(message = "Username is mandatory")
+	@NotBlank(message = "Vui lòng nhập Username")
 	@Column(name = "user_name", nullable = false)
 	private String userName;
 	
 	@Column(name = "password")
 	private String password;
 	
-	@NotBlank(message = "First name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Tên")
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
-	@NotBlank(message = "Last name is mandatory")
+	@NotBlank(message = "Vui lòng nhập Họ")
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
@@ -53,11 +53,12 @@ public class User {
 	@Column(name = "address")
 	private String address;
 	
-	@NotBlank(message = "Email is mandatory")
+	@NotBlank(message = "Vui lòng nhập Email")
 	@Email(message = "Invalid email")
 	@Column(name = "email", nullable = false)
 	private String email;
 	
+	@NotBlank(message = "Vui lòng nhập Số Điện Thoại")
 	@Column(name = "PHONE_NUMBER", length = 20)
 	private String phoneNumber;
 	
