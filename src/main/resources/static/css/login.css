@@ -1,8 +1,9 @@
-.background {
-	background-image: url("/images/login1.jpg");
-	background-size: cover;
+.background-login{
+	background-color: #454444;	
 }
 
-.login-container{	
-	padding-top: 175px;
+.login-box{	
+	background-color:  #5FBDBE;
+	height:400px;
+	border-radius: 10px;	
 }

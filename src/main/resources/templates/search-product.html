@@ -12,31 +12,38 @@
 		<section class="pt-5">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-7">
-							<h3>Tên danh mục</h3>
+					<div class="col-md-3">
+							<h1 class="border-bottom border-5 border-danger pb-3">Tìm sản phẩm</h1>
 					</div>					
 				</div>
 			</div>
-				
-			<div class="container">
+			
+			<div class="container pb-4">
 				<div class="row">
-					<div class="col-md-3 pt-3" style="height: 100px">
-						<h3>DANH MỤC SẢN PHẨM</h3>
+					<div class="col-md-3 pt-3">
+						<h5>DANH MỤC SẢN PHẨM</h5>
 							<div th:each="category : ${categories}" class="fs-5">
+								<i class="bi bi-caret-right"></i>
 								<a th:href="@{/shop/viewCategory?(categoryId=${category.id})}" th:text="${category.name}" style="text-decoration: none; color: #28bcbe"></a>
 							</div>
 					</div>
 					
 					<div class="col-md-9">
-						<div class="row pb-3">
+						<div class="row pb-5">
 							<div th:each="food : ${foods}" class="col-md-3 text-center pb-4 pt-3">
-				    			<div class="image-box">
+				    			<div class="image-box mb-3">
 				    				<a th:href="@{/shop/viewProduct?(foodId=${food.id})}">
 				    				<img th:attr="src=@{/upload/{path}(path=${food.thumbnailImageName})}" width="200px" height="300px"></a>
 				    					<div class="list-group-item" th:text="${food.category.name}"></div>
-										<div class="list-group-item text-uppercase"><a type="button" th:href="@{/shop/viewProduct?(foodId=${food.id})}" th:text="${food.name}" style="text-decoration: none; color: 007784;">TÊN SẢN PHẨM</a></div>
+										<div class="list-group-item text-uppercase"><a type="button" th:href="@{/shop/viewProduct?(foodId=${food.id})}" th:text="${food.name}" style="text-decoration: none; color: #1E7D87;">TÊN SẢN PHẨM</a></div>
 										<div class="list-group-item" th:if="${food.quantity}>0">
-											<div th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></div>
+											<div th:if="${food.priceSpecial}>0">
+												<span class="text-decoration-line-through" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></span>
+												<strong style="color:#9C2552" th:text="${#numbers.formatInteger(food.priceSpecial,3,'POINT')}+' đ'"></strong>
+											</div>
+											<div th:if="${food.priceSpecial}<=0">
+												<div th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></div>
+											</div>
 										</div>
 										<div class="list-group-item" th:if="${food.quantity}<1">
 											<div>Hết hàng</div>
@@ -48,18 +55,18 @@
 						  <ul class="pagination">
 						  
 						    <li th:if="${currentPage > 1}" class="page-item">
-						    	<a class="page-link" th:href="@{/shop/searchProduct?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
+						    	<a class="page-link" th:href="@{/shop/searchProduct?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir},keyword=${keyword})}">Trang trước</a>
 						    </li>
 						    <li th:if="${currentPage <= 1}" class="page-item disabled">
 						    	<a class="page-link" href="#">Trang trước</a>
 						    </li>					    
 						   					    
 						    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
-						    	<a class="page-link" th:text=${i} th:href="@{/shop/searchProduct?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
+						    	<a class="page-link" th:text=${i} th:href="@{/shop/searchProduct?(page=${i},sortField=${sortField},sortDir=${sortDir},keyword=${keyword})}">1</a>
 						    </li>
 						    
 						    <li th:if="${currentPage < totalPages}" class="page-item">
-						    	<a class="page-link" th:href="@{/shop/searchProduct?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
+						    	<a class="page-link" th:href="@{/shop/searchProduct?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir},keyword=${keyword})}">Trang sau</a>
 						    </li>
 						    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
 						    	<a class="page-link" href="#">Trang sau</a>

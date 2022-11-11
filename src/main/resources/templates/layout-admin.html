@@ -76,6 +76,12 @@ fit=no">
           NHÂN VIÊN
         </a></div>
       </li>
+      <li th:class="${session.menuSelected == 'permission'}? 'nav-item active mb-3' : 'nav-item mb-3'"><div sec:authorize="hasRole('ROLE_ADMIN')" class="sidebar-button">
+        <a th:href="@{/admin/permissions}" class="nav-link text-white">
+        <i class="bi bi-p-square"></i>
+          PHÂN QUYỀN
+        </a></div>
+      </li>
     </ul>
     <hr>
     <div sec:authorize="isAuthenticated()" class="nav-item">
@@ -113,13 +119,15 @@ fit=no">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="" th:attr="src=@{/js/viewbox/jquery.viewbox.min.js}"></script>
 	<script>
+		$(function(){
+			$('.thumbnail').viewbox();
+		});		
+	
 		$(document).ready(function(){
 			$("#description").richText();
 		})
 		
-		$(function(){
-			$('.thumbnail').viewbox();
-		});
+		
 		
 			
 		

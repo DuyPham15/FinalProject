@@ -61,7 +61,7 @@
 								
 								<div class="mb-3">
 		                            <label for="attribute" class="form-label">Chọn thuộc tính:</label>
-		                            <select th:field="*{attribute}" id="attribute" multiple class="form-select" >
+		                            <select th:field="*{attribute}" id="attribute" class="form-select" >
 		                                <option th:each = "attribute : ${attributes}" th:value="${{attribute}}" th:text="${attribute.displayName}+' : '+${attribute.value}"></option>
 		                            </select>
 		                        </div>

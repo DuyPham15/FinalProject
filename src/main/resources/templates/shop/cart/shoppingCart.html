@@ -8,7 +8,7 @@
 <title>Giới thiệu - MixiFood</title>
 </head>
 <body>
-<div class="pt-5" layout:fragment="content" style="background-color: #DEFEFF;">
+<div class="pt-5" layout:fragment="content" style="background-color: #C1FEFF;">
 <script>
 		function findCartLine(productId,data){
 			for(let i=0;i < data.cartLines.length;i++){
@@ -97,11 +97,11 @@
 											<th>Xóa sản phẩm</th>
 										</tr>
 									</thead>
-									<tbody class="text-center border-top">
+									<tbody class="text-center border-top">										
 										<form th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}" 
 										method="POST" th:action="@{/shop/shoppingCart}" th:object="${cartForm}">
 											<div class="product-preview-container">
-												<tr th:each="cartLineInfo,itemStat:*{cartLines}">
+												<tr th:each="cartLineInfo,itemStat:*{cartLines}">																										
 													<td data-th="Image">
 														<div class="row-cart">
 															<div class="col hidden-xs" style="display:flex; justify-content: center">
@@ -129,32 +129,29 @@
 														<a class="link" data-bs-toggle="modal" 
 																th:attr="data-bs-target=${'#deleteConfirmModal'+cartLineInfo.productInfo.productId}">
 																<i class="bi bi-trash3" style="font-size:20px"></i>
-														</a>
-														
-															<div class="modal fade" th:attr="id=${'deleteConfirmModal'+cartLineInfo.productInfo.productId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-															  <div class="modal-dialog">
-															    <div class="modal-content">
-															      <div class="modal-header">
-															        <h5 class="modal-title" id="exampleModalLabel">Xóa Sản Phẩm</h5>
-															        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															      </div>
-															      <div class="modal-body">
-															        Xác nhận xóa sản phẩm?
-															      </div>
-															      <div class="modal-footer">
-															        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
-															        <a class="btn btn-outline-danger" th:href="@{/shop/shoppingCartRemoveProduct?(foodId=${cartLineInfo.productInfo.productId})}" role="button">Xóa</a>
-															      </div>
-															    </div>
-															  </div>
-															</div>
+														</a>														
+														<div class="modal fade" th:attr="id=${'deleteConfirmModal'+cartLineInfo.productInfo.productId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														  <div class="modal-dialog">
+														    <div class="modal-content">
+														      <div class="modal-header">
+														        <h5 class="modal-title" id="exampleModalLabel">Xóa Sản Phẩm</h5>
+														        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														      </div>
+														      <div class="modal-body">
+														        Xác nhận xóa sản phẩm?
+														      </div>
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+														        <a class="btn btn-outline-danger" th:href="@{/shop/shoppingCartRemoveProduct?(foodId=${cartLineInfo.productInfo.productId})}" role="button">Xóa</a>
+														      </div>
+														    </div>
+														  </div>
+														</div>
 													</td>
 												</tr>
-											</div>
-
-											
-										</form>
-									</tbody>
+											</div>					
+										</form>										
+									</tbody>									
 								</table>								
 							</div>
 						</div>
@@ -183,7 +180,12 @@
 							  				<h4 class="ps-2 fw-bolder">Tạm tính</h4>
 							  			</div>
 							  			<div class="col-md-7">
-							  				<p id="amountTotal" class="fs-5 text-end pe-2" th:text="${#numbers.formatInteger(cartForm.amountTotal+30000,1,'POINT')}+' đ'"></p>
+							  				<div th:if="${cartForm.amountTotal}>0">
+							  					<p id="amountTotal" class="fs-5 text-end pe-2" th:text="${#numbers.formatInteger(cartForm.amountTotal+30000,1,'POINT')}+' đ'"></p>
+							  				</div>	
+							  				<div th:if="${cartForm.amountTotal}<=0">
+							  					<p id="amountTotal" class="fs-5 text-end pe-2" th:text="${#numbers.formatInteger(cartForm.amountTotal,1,'POINT')}+' đ'"></p>
+							  				</div>							  										  				
 							  			</div>
 							  		</div>									
 								</div>

@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout-admin}">
 <head>
-<title>Trang Tạo Mới User</title>
+<title>Trang Tạo Mới Nhân Viên</title>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col-md-2"></div>
 				<div class = "col-md-10">
-					<h2 class="text-center mb-3 pt-5">Tạo Mới User</h2>
+					<h2 class="text-center mb-3 pt-5">Tạo Mới Nhân Viên</h2>
 				
 				<div class="row" style="display:flex ;justify-content: center;">
 						<div class="col-md-6">
@@ -72,8 +72,8 @@
 								
 								<div class="mb-3">
 		                            <label for="validationCustom02" class="form-label">Chọn quyền:</label>
-			                            <select th:field="*{permissions}" id="role" multiple class="form-select" >
-			                                <option th:each = "permission : ${allPermissions}" th:value="${{permission}}" th:text="${permission.role}"></option>
+			                            <select th:field="*{permissions}" id="role" class="form-select" >
+			                                <option th:each = "permission : ${permissions}" th:value="${{permission}}" th:text="${permission.role}"></option>
 			                            </select>
 		                        </div>
 		

@@ -21,7 +21,7 @@
 									<a th:href="@{/admin/foods?(page=${currentPage},sortField='foodCode',sortDir=${reverseSortDir})}" style="text-decoration: none">Mã Sản Phẩm</a>
 								</th>
 								<th>
-									<a th:href="@{/admin/foods?(page=${currentPage},sortField='description',sortDir=${reverseSortDir})}" style="text-decoration: none">Danh Mục</a>
+									<a th:href="@{/admin/foods?(page=${currentPage},sortField='category.name',sortDir=${reverseSortDir})}" style="text-decoration: none">Danh Mục</a>
 								</th>
 								<th>
 									<a th:href="@{/admin/foods?(page=${currentPage},sortField='name',sortDir=${reverseSortDir})}" style="text-decoration: none">Tên Sản Phẩm</a>

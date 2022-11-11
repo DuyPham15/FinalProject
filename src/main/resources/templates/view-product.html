@@ -28,9 +28,15 @@
 					<div class="col-md-5 pt-5">
 						<form th:action="@{/shop/buyProduct?(foodId=${food.id})}" method="post">
 							<h1 class="fw-bolder" th:text="${food.name}+' - '+${food.foodCode}"></h1>
-							<hr width=60px class="opacity-75">						
-							<h3 class="fw-bolder py-4" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></h3>						
-							<h5 class="pb-4" th:text="${food.attribute.displayName}+' : '+${food.attribute.value}"></h5>			
+							<hr width=60px class="opacity-75">
+							<div th:if="${food.priceSpecial}>0" class="py-4">								
+								<span class="text-decoration-line-through fs-3 fw-bold" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></span>
+								<strong class="fs-3 fw-bold ms-3" style="color:#9C2552" th:text="${#numbers.formatInteger(food.priceSpecial,3,'POINT')}+' đ'"></strong>
+							</div>
+							<div th:if="${food.priceSpecial}<=0">
+								<h3 class="fw-bolder py-4" th:text="${#numbers.formatInteger(food.price,3,'POINT')}+' đ'"></h3>
+							</div>
+							<h5 class="pb-4" th:text="${food.attribute.displayName}"></h5>			
 							<div th:if="${food.quantity} &gt; 0">
 								<span>Số lượng: <input class="text-center" type="number" name="quantity" th:min="1" th:max="${food.quantity}" th:value="1">
 									<span class="ps-3 fw-lighter fst-italic" th:text="${food.quantity}+' sản phẩm có sẵn'"></span>
@@ -47,7 +53,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row pt-5">
 					<div class="col-md-12">
 						<h4>MÔ TẢ SẢN PHẨM</h4>
 						<div th:utext="${food.description}"></div>

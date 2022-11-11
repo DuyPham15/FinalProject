@@ -4,7 +4,7 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 	layout:decorate="~{layout-admin}">
 <head>
-<title>Trang Danh Mục Sản Phẩm</title>
+<title>Trang Quyền Nhân Viên</title>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -12,48 +12,40 @@
 			<div class="row">
 				<div class="col-md-2"></div>
 				<div class = "col-md-10">
-					<h2 class="my-5 text-center">Danh Mục Sản Phẩm</h2>
-					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-outline-success fw-bold mb-3"  th:href="@{/admin/addCategory}" role="button">Thêm Danh Mục</a>
+					<h2 class="my-5 text-center">Quyền Nhân Viên</h2>
+					<a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-outline-success fw-bold mb-3" th:href="@{/admin/addPermission}" role="button">Thêm Quyền</a>
 					<table class="table table-secondary table-striped-columns">
 						<thead>
-							<tr>
-																<th>
-									<a th:href="@{/admin/categories?(page=${currentPage},sortField='name',sortDir=${reverseSortDir})}" style="text-decoration: none">Tên Danh Mục</a>
-								</th>
+							<tr>								
 								<th>
-									<a th:href="@{/admin/categories?(page=${currentPage},sortField='title',sortDir=${reverseSortDir})}" style="text-decoration: none">Tựa Đề</a>
-								</th>
-								<th>
-									<a th:href="@{/admin/categories?(page=${currentPage},sortField='description',sortDir=${reverseSortDir})}" style="text-decoration: none">Mô Tả</a>
-								</th>								
+									<a th:href="@{/admin/permissions?(page=${currentPage},sortField='role',sortDir=${reverseSortDir})}" style="text-decoration: none">Tên Quyền</a>
+								</th>							
 								<th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Lựa Chọn</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="category: ${categories}">
-								<td th:text="${category.name}"></td>
-								<td th:text="${category.title}"></td>
-								<td th:utext="${category.description}"></td>								
+							<tr th:each="permission : ${permissions}">
+								<td th:text="${permission.role}"></td>								
 								<td sec:authorize="hasAnyRole('ADMIN','MANAGER')">
-								<a class="btn btn-outline-primary" th:href="@{/admin/editCategory?(categoryId=${category.id})}" role="button">Sửa</a>
+								<a class="btn btn-outline-primary" th:href="@{/admin/editPermission?(permissionId=${permission.id})}" role="button">Sửa</a>
 								<button type="button" class="btn btn-outline-danger" 
 										data-bs-toggle="modal" 
-										th:attr="data-bs-target=${'#deleteConfirmModal'+category.id}">Xóa
+										th:attr="data-bs-target=${'#deleteConfirmModal'+permission.id}">Xóa
 								</button>
 								
-									<div class="modal fade" th:attr="id=${'deleteConfirmModal'+category.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal fade" th:attr="id=${'deleteConfirmModal'+permission.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									  <div class="modal-dialog">
 									    <div class="modal-content">
 									      <div class="modal-header">
-									        <h5 class="modal-title" id="exampleModalLabel">Xóa Danh Mục</h5>
+									        <h5 class="modal-title" id="exampleModalLabel">Xóa Thuộc Tính</h5>
 									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									      </div>
 									      <div class="modal-body">
-									        Xác nhận xóa danh mục?
+									        Xác nhận xóa thuộc tính?
 									      </div>
 									      <div class="modal-footer">
 									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-									        <a class="btn btn-danger" th:href="@{/admin/deleteCategory?(categoryId=${category.id})}" role="button">Xóa</a>
+									        <a class="btn btn-danger" th:href="@{/admin/deletePermission?(permissionId=${permission.id})}" role="button">Xóa</a>
 									      </div>
 									    </div>
 									  </div>
@@ -66,24 +58,24 @@
 					  <ul class="pagination">
 					  
 					    <li th:if="${currentPage > 1}" class="page-item">
-					    	<a class="page-link" th:href="@{/admin/categories?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Trang trước</a>
+					    	<a class="page-link" th:href="@{/admin/permissions?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Trang trước</a>
 					    </li>
 					    <li th:if="${currentPage <= 1}" class="page-item disabled">
 					    	<a class="page-link" href="#">Trang trước</a>
 					    </li>					    
 					   					    
 					    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
-					    	<a class="page-link" th:text=${i} th:href="@{/admin/categories?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
+					    	<a class="page-link" th:text=${i} th:href="@{/admin/permissions?(page=${i},sortField=${sortField},sortDir=${sortDir})}">1</a>
 					    </li>
 					    
 					    <li th:if="${currentPage < totalPages}" class="page-item">
-					    	<a class="page-link" th:href="@{/admin/categories?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Trang sau</a>
+					    	<a class="page-link" th:href="@{/admin/permissions?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Trang sau</a>
 					    </li>
 					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
 					    	<a class="page-link" href="#">Trang sau</a>
 					    </li>
 					  </ul>
-					</nav>
+					</nav>					
 				</div>
 			</div>
 		</div>

@@ -44,8 +44,8 @@ fit=no">
 							</button>
 							<div class="collapse navbar-collapse" id="navbarNav">
 								<ul class="navbar-nav navbar-dark">
-									<li class="nav-item pe-3">
-										<a th:class="${session.menuSelected == 'home'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'"
+									<li class="nav-item pe-3">										
+										<a th:class="${session.menuSelected == 'home'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'" 
 										th:href="@{/home}">TRANG CHỦ</a>
 									</li>									
 									<li class="pe-3">
@@ -67,7 +67,7 @@ fit=no">
 									<li class="nav-item">
 										<form th:action="@{/shop/searchProduct}" method="post">
 											<div class="input-group mb-3">
-											  <input type="search" class="form-control text-secondary" placeholder="Tìm kiếm..." th:value="${keyword}" name="keyword"/>
+											  <input type="search" class="form-control text-secondary" placeholder="Tìm kiếm..." th:value="${session.keywordSession}" name="keyword"/>
 											  <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
 											</div>
 										</form>
@@ -77,9 +77,14 @@ fit=no">
 						</div>
 					</nav>
 				</div>
-				<div class = "col-md-2 ps-0 pe-0 pt-3">
-					<a th:class="${session.menuSelected == 'cart'}? 'nav-item active fw-bolder btn btn-outline-secondary border-0' : 'fw-bolder btn btn-outline-secondary border-0'" 
-					th:href="@{/shop/shoppingCart}" role="button">GIỎ HÀNG <i class="bi bi-cart-dash-fill" style="font-size:20px;"></i></a>
+				<div class = "col-md-2 ps-0 pe-0 pt-3">					
+					<a th:href="@{/shop/shoppingCart}">	
+					<button type="button" th:class="${session.menuSelected == 'cart'}?  'active fw-bolder btn btn-outline-secondary border-0 position-relative' : 'btn fw-bolder btn btn-outline-secondary border-0 position-relative'">									
+					  GIỎ HÀNG
+					  <i class="bi bi-cart-dash-fill" style="font-size:20px;"></i>
+					  <span th:text="${session.itemCount}" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">					    
+					  </span>				  					  	
+					</button></a>
 				</div>
 			</div>
 		</div>

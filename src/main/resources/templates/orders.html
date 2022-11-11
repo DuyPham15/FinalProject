@@ -35,7 +35,7 @@
 						<tbody>
 							<tr th:each="order : ${orders}">
 								<td><a th:href="@{/admin/viewOrder?(orderId=${order.id})}" th:text="${order.id}" style="text-decoration: none"></a></td>
-								<td th:text="${#calendars.format(order.date,'dd/MM/yyyy hh:MM:ss')}"></td>
+								<td th:text="${#calendars.format(order.date,'dd/MM/yyyy')}"></td>
 								<td th:text="${order.customer.lastName}+' '+${order.customer.firstName}"></td>
 								<td>
 									<div th:switch="${order.status}">
@@ -55,7 +55,7 @@
 					  <ul class="pagination">
 					  
 					    <li th:if="${currentPage > 1}" class="page-item">
-					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Previous</a>
+					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage-1},sortField=${sortField},sortDir=${sortDir})}">Trang trước</a>
 					    </li>
 					    <li th:if="${currentPage <= 1}" class="page-item disabled">
 					    	<a class="page-link" href="#">Trang trước</a>
@@ -66,7 +66,7 @@
 					    </li>
 					    
 					    <li th:if="${currentPage < totalPages}" class="page-item">
-					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Next</a>
+					    	<a class="page-link" th:href="@{/admin/orders?(page=${currentPage+1},sortField=${sortField},sortDir=${sortDir})}">Trang sau</a>
 					    </li>
 					    <li th:if="${currentPage >=  totalPages}" class="page-item disabled">
 					    	<a class="page-link" href="#">Trang sau</a>

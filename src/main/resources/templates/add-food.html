@@ -41,7 +41,7 @@
 									<label for="foodCode" class="col-form-label">Mã Sản Phẩm</label>
 									<input type="text" th:field="*{code}" class="form-control"
 										id="foodCode" placeholder="Mã sản phẩm" /> 
-									<span th:errors="*{code}" class="text-danger"></span>
+									<span th:errors="*{foodCode}" class="text-danger"></span>
 								</div>
 		
 								<div class="mb-3">
@@ -53,8 +53,8 @@
 								
 								<div class="mb-3">
 		                            <label for="attribute" class="form-label">Chọn thuộc tính:</label>
-		                            <select th:field="*{attribute}" id="attribute" multiple class="form-select" >
-		                                <option th:each = "attribute : ${attributes}" th:value="${{attribute}}" th:text="${attribute.displayName}+' : '+${attribute.value}"></option>
+		                            <select th:field="*{attribute}" id="attribute" class="form-select" >
+		                                <option th:each = "attribute : ${attributes}" th:value="${{attribute}}" th:text="${attribute.displayName}"></option>
 		                            </select>
 		                        </div>
 								
